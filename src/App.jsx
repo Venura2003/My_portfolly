@@ -801,14 +801,6 @@ export default function App() {
             <p style={{ fontSize: '12px', color: 'var(--text-lo)', lineHeight: 1.8 }}>
               Designed & built by{' '}
               <span style={{ color: 'var(--text-md)' }}>Venura Wickramasingha</span>.
-              {' '}Inspired by{' '}
-              <a href="https://brittanychiang.com" target="_blank" rel="noreferrer" className="gold-link" style={{ fontSize: '12px' }}>
-                Brittany Chiang
-              </a>
-              {' '}and{' '}
-              <a href="https://linear.app" target="_blank" rel="noreferrer" className="gold-link" style={{ fontSize: '12px' }}>
-                Linear
-              </a>.
             </p>
           </footer>
         </main>
