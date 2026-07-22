@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Venura Wickramasingha - CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #111827;
+      --secondary: #4b5563;
+      --accent: #c6a84b;
+      --border: #e5e7eb;
+      --bg: #ffffff;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #f3f4f6;
+      color: var(--primary);
+      line-height: 1.5;
+      font-size: 11px;
+    }
+
+    .a4-page {
+      background: var(--bg);
+      width: 210mm;
+      min-height: 297mm;
+      margin: 10mm auto;
+      padding: 12mm 15mm;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    /* Print settings */
+    @page {
+      size: A4;
+      margin: 0;
+    }
+    @media print {
+      body { background: #fff; }
+      .a4-page { 
+        margin: 0; 
+        box-shadow: none; 
+        width: 100%; 
+        height: 100%;
+        padding: 12mm 15mm; 
+      }
+      .no-print { display: none !important; }
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .name {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    .role {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 10.5px;
+      color: var(--secondary);
+    }
+    .contact-info a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    /* Experience / Projects Items */
+    .item {
+      margin-bottom: 12px;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+    .item-title {
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .item-company {
+      font-weight: 600;
+      color: var(--secondary);
+      font-size: 11px;
+    }
+    .item-date {
+      font-size: 10px;
+      color: var(--secondary);
+      font-weight: 500;
+      text-align: right;
+    }
+    .item-desc {
+      margin-top: 4px;
+      color: #374151;
+      text-align: justify;
+    }
+    .item-bullets {
+      margin-top: 4px;
+      padding-left: 14px;
+    }
+    .item-bullets li {
+      margin-bottom: 2px;
+      color: #374151;
+    }
+    .tech-stack {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .skill-cat {
+      font-weight: 700;
+      margin-bottom: 2px;
+      font-size: 11px;
+    }
+    .skill-list {
+      color: var(--secondary);
+    }
+
+    /* Buttons */
+    .print-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background 0.2s;
+      z-index: 100;
+    }
+    .print-btn:hover {
+      background: #1f2937;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn no-print" onclick="window.print()">Download PDF</button>
+
+  <div class="a4-page">
+    
+    <!-- HEADER -->
+    <div class="header">
+      <div class="name">Venura Wickramasingha</div>
+      <div class="role">Full Stack Software Engineer</div>
+      <div class="contact-info">
+        <span>Email: <a href="mailto:venura.wickramasingha@gmail.com">venura.wickramasingha@gmail.com</a></span> |
+        <span>Phone: +94 70 723 8483</span> |
+        <span>LinkedIn: <a href="https://linkedin.com/in/venura-wickramasingha-b8935739a" target="_blank">linkedin.com/in/venura-wickramasingha</a></span> |
+        <span>GitHub: <a href="https://github.com/Venura2003" target="_blank">github.com/Venura2003</a></span> |
+        <span>Portfolio: <a href="https://my-portfolly.vercel.app/" target="_blank">my-portfolly.vercel.app</a></span>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+      <div class="section-title">Professional Summary</div>
+      <p class="item-desc">
+        A highly motivated and results-driven Software Engineering undergraduate with proven experience building real-world enterprise systems. Within my first month of internship, I independently architected and deployed a complete production-grade Supermarket ERP & POS platform. I have successfully shipped 7+ production systems covering full-stack web, mobile, and API development, specializing in React, .NET, Flutter, and the MERN stack. I thrive in agile teams and independently delivering end-to-end client solutions.
+      </p>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+      <div class="section-title">Experience</div>
+      
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">Full Stack Developer Intern</span> | 
+            <span class="item-company">Ceylon Innovation PVT</span>
+          </div>
+          <div class="item-date">Present</div>
+        </div>
+        <ul class="item-bullets">
+          <li>Independently architected and deployed a complete <strong>Supermarket ERP & POS Platform</strong> featuring role-based dashboards, inventory tracking, HR payroll, and real-time billing engines.</li>
+          <li>Developed <strong>Leaf Intel</strong>, a production agricultural system for a major client, tracking end-to-end tea leaf collection workflows and processing records using Flutter and .NET.</li>
+          <li>Engineered <strong>Super Sonic</strong>, an auto trading platform streamlining the Japanese vehicle auction lifecycle, dismantling operations, and spare part inventory.</li>
+        </ul>
+        <div class="tech-stack">Technologies: Flutter, .NET, MySQL, React, Azure, Render, Vercel</div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">Collaborative Full Stack Developer</span> | 
+            <span class="item-company">Independent / Freelance</span>
+          </div>
+          <div class="item-date">Ongoing</div>
+        </div>
+        <ul class="item-bullets">
+          <li>Collaborated remotely with an agile team to design, build, and deploy a fully-fledged <strong>Gym Management System</strong> currently operating in live production.</li>
+          <li>Designed and built high-performance websites for clients including the official <strong>Lunudehi Band Website</strong> and <strong>Knight Web Production</strong> event company platform.</li>
+        </ul>
+        <div class="tech-stack">Technologies: React, Spring Boot, SQL, TypeScript, Node.js</div>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">BSc (Hons) in Information Technology</span> | 
+            <span class="item-company">Sri Lanka Institute of Information Technology (SLIIT)</span>
+          </div>
+          <div class="item-date">Feb 2023 – June 2027</div>
+        </div>
+        <p class="item-desc" style="margin-top:2px;">Currently completed 3 years and 1 semester with hands-on exposure to enterprise software architecture, mobile development, and full-stack web systems.</p>
+      </div>
+    </div>
+
+    <!-- ACADEMIC PROJECTS (From old CV) -->
+    <div class="section">
+      <div class="section-title">Academic & Early Projects</div>
+      
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">Serenity</span> – <span class="item-company">Online Mattress E-Commerce Platform</span>
+          </div>
+        </div>
+        <ul class="item-bullets">
+          <li>Built a feature-rich e-commerce platform using the MERN stack for online mattress sales.</li>
+          <li>Implemented secure user authentication (IWT) and product management features (CRUD).</li>
+          <li>Developed robust stock tracking systems and automated monthly inventory report generation capabilities.</li>
+        </ul>
+        <div class="tech-stack">Technologies: MongoDB, Express.js, React.js, Node.js</div>
+      </div>
+
+      <div class="item" style="margin-bottom: 6px;">
+        <div class="item-header">
+          <div>
+            <span class="item-title">EarthWise</span> – <span class="item-company">Mobile App UI/UX Project</span>
+          </div>
+        </div>
+        <p class="item-desc">Developed a sustainability-focused Android app to track environmental impacts. Designed an intuitive UI adhering to the 60-30-10 color rule. Implemented interactive views for goal tracking and carbon footprint monitoring.</p>
+        <div class="tech-stack" style="margin-top: 2px;">Technologies: Android Studio, XML, Java</div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">Online Train Reservation System</span> – <span class="item-company">Java Academic Project</span>
+          </div>
+        </div>
+        <p class="item-desc">Developed a Java application for real-time digital service management in a 4-member Agile team. Responsible for the Inventory Management Module with advanced CRUD operations and validation.</p>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="section">
+      <div class="section-title">Technical Skills</div>
+      <div class="skills-grid">
+        <div>
+          <div class="skill-cat">Frontend & Web Development</div>
+          <div class="skill-list">React, TypeScript, JavaScript, Vite, HTML5, CSS3, Tailwind</div>
+        </div>
+        <div>
+          <div class="skill-cat">Backend Development</div>
+          <div class="skill-list">.NET, Spring Boot, Node.js, Express.js, Java, Python</div>
+        </div>
+        <div>
+          <div class="skill-cat">Mobile & Cross-Platform</div>
+          <div class="skill-list">Flutter, Dart, Android Studio, XML</div>
+        </div>
+        <div>
+          <div class="skill-cat">Databases & Tools</div>
+          <div class="skill-list">MySQL, SQL Server, MongoDB (NoSQL), Git/GitHub, Postman, Vercel</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATIONS & EXTRAS -->
+    <div class="section" style="margin-bottom:0;">
+      <div class="section-title">Certifications & Extra-Curriculars</div>
+      <div style="display:flex; justify-content: space-between;">
+        <ul class="item-bullets" style="margin-top:0;">
+          <li><strong>Assured Diploma in Information Technology</strong> – Esoft Metro Campus (Pearson Assured)</li>
+        </ul>
+        <ul class="item-bullets" style="margin-top:0; list-style-type: none;">
+          <li><strong>School Cricket Team Captain</strong> & Media Club Member</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
