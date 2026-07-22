@@ -13,10 +13,10 @@ import imgSupermarketEmployee from './assest/supermarkert/employee-dashboard.png
 import imgSupermarketLogin from './assest/supermarkert/login.png';
 
 // Leaf Intel Images
-import imgLeafIntel1 from './assest/Leaf-intel/Screenshot 2026-07-21 231943.png';
-import imgLeafIntel2 from './assest/Leaf-intel/Screenshot 2026-07-21 232145.png';
-import imgLeafIntel3 from './assest/Leaf-intel/Screenshot 2026-07-21 232218.png';
-import vidLeafIntel from './assest/Leaf-intel/Recording 2026-07-21 232513.mp4';
+import imgLeafIntel1 from './assest/leaf-intel/Screenshot 2026-07-21 231943.png';
+import imgLeafIntel2 from './assest/leaf-intel/Screenshot 2026-07-21 232145.png';
+import imgLeafIntel3 from './assest/leaf-intel/Screenshot 2026-07-21 232218.png';
+import vidLeafIntel from './assest/leaf-intel/Recording 2026-07-21 232513.mp4';
 
 // Lunudehi Images
 import imgLunudehi1 from './assest/Lunudehi/1781264752035.jpg';
