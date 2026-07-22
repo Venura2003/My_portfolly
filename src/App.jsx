@@ -296,61 +296,68 @@ function ProjectCaseStudy({ project, onClose }) {
   const isVideo = mainMedia && typeof mainMedia === 'string' && mainMedia.includes('.mp4');
 
   return (
-    <div className="cinematic-overlay" onClick={onClose}>
-      <div className="cinematic-container" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} className="cinematic-close">
+    <div className="split-overlay" onClick={onClose}>
+      <div className="split-container" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="split-close">
           <X size={24} />
         </button>
 
-        {/* Cinematic Background Layer */}
-        <div className="cinematic-bg-layer">
+        {/* Left Panel: Main Media */}
+        <div className="split-media-panel">
           {isVideo ? (
-            <video src={mainMedia} autoPlay loop muted playsInline className="cinematic-media" />
+            <video src={mainMedia} autoPlay loop muted playsInline className="split-main-media" />
           ) : mainMedia ? (
-            <img src={mainMedia} alt={project.title} className="cinematic-media" />
+            <img src={mainMedia} alt={project.title} className="split-main-media" />
           ) : (
-            <div className="cinematic-media" style={{ background: 'var(--bg)' }} />
+            <div className="split-main-media empty-media" />
           )}
-          <div className="cinematic-gradient" />
+          <div className="split-media-overlay" />
         </div>
 
-        {/* Content Layer */}
-        <div className="cinematic-content">
-          <div className="cinematic-text-block">
-            <div className="text-label" style={{ marginBottom: '16px' }}>{project.type}</div>
-            <h2 className="cinematic-title">{project.title}</h2>
-            <p className="cinematic-desc">{project.detail}</p>
+        {/* Right Panel: Content & Details */}
+        <div className="split-content-panel">
+          <div className="split-header">
+            <div className="text-label" style={{ marginBottom: '12px' }}>{project.type}</div>
+            <h2 className="split-title">{project.title}</h2>
+          </div>
+
+          <div className="split-body">
+            <p className="split-desc">{project.detail}</p>
             
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
-              {project.tech.map(t => <span key={t} className="badge badge-cinematic">{t}</span>)}
+            <div className="split-tech-stack">
+              {project.tech.map(t => <span key={t} className="badge badge-split">{t}</span>)}
             </div>
-            
-            {project.link && (
-              <div style={{ marginBottom: '40px' }}>
-                <MagneticButton
-                  as="a"
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="cinematic-btn"
-                >
-                  VISIT LIVE SITE <ArrowUpRight size={14} />
-                </MagneticButton>
+
+            {/* Secondary Image Gallery */}
+            {hasMedia && project.images.length > 1 && (
+              <div className="split-gallery">
+                <h3 className="split-gallery-title">Gallery</h3>
+                <div className="split-gallery-grid">
+                  {project.images.slice(1).map((media, idx) => {
+                    const isVid = typeof media === 'string' && media.includes('.mp4');
+                    return isVid ? (
+                      <video key={idx} src={media} autoPlay loop muted playsInline className="split-gallery-item" />
+                    ) : (
+                      <img key={idx} src={media} alt={`${project.title} screenshot ${idx + 1}`} className="split-gallery-item" />
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
-
-          {/* Secondary Gallery Carousel */}
-          {hasMedia && project.images.length > 1 && (
-            <div className="cinematic-carousel">
-              {project.images.slice(1).map((media, idx) => {
-                const isVid = typeof media === 'string' && media.includes('.mp4');
-                return isVid ? (
-                  <video key={idx} src={media} autoPlay loop muted playsInline className="cinematic-carousel-item" />
-                ) : (
-                  <img key={idx} src={media} alt="Screenshot" className="cinematic-carousel-item" />
-                );
-              })}
+          
+          {/* Sticky Footer for the Live Site Button */}
+          {project.link && (
+            <div className="split-footer">
+              <MagneticButton
+                as="a"
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                className="split-btn"
+              >
+                VISIT LIVE SITE <ArrowUpRight size={16} />
+              </MagneticButton>
             </div>
           )}
         </div>
