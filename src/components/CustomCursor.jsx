@@ -49,7 +49,7 @@ export default function CustomCursor() {
         position: 'fixed', top: -3, left: -3,
         width: 6, height: 6, borderRadius: '50%',
         backgroundColor: hovered ? 'transparent' : '#c9a84c',
-        pointerEvents: 'none', zIndex: 9999,
+        pointerEvents: 'none', zIndex: 999999,
         transition: 'background-color 0.2s ease',
         transform: 'translate3d(0,0,0)',
       }} />
@@ -59,7 +59,7 @@ export default function CustomCursor() {
         borderRadius: '50%',
         border: hovered ? '1.5px solid #c9a84c' : '1px solid rgba(201,168,76,0.4)',
         backgroundColor: hovered ? 'rgba(201,168,76,0.04)' : 'transparent',
-        pointerEvents: 'none', zIndex: 9998,
+        pointerEvents: 'none', zIndex: 999998,
         transition: 'width 0.3s ease, height 0.3s ease, border 0.3s ease, background-color 0.3s ease',
         transform: 'translate3d(0,0,0)',
       }} />

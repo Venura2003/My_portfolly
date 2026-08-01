@@ -54,7 +54,7 @@ const ROLES = [
 
 const EXPERIENCE = [
   {
-    title: 'Full Stack Developer Intern',
+    title: 'Junior Full Stack Developer',
     company: 'Ceylon Innovation PVT',
     location: 'Sri Lanka',
     desc: 'Building full-stack enterprise systems from day one. Within the first month independently architected and deployed a complete Supermarket ERP & POS platform. Progressed to deliver real-world client-based systems across agriculture, automotive, and event management sectors.',
@@ -657,7 +657,7 @@ export default function App() {
 
             <div className="bento-grid reveal">
               {/* Main Bio Card */}
-              <div className="bento-card bio-card" style={{ gridColumn: '1 / span 1', display: 'flex', flexDirection: 'column' }}>
+              <div className="bento-card bio-card" style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
                   <img 
                     src={imgProfile} 
@@ -667,7 +667,7 @@ export default function App() {
                   <h3 className="bento-title" style={{ margin: 0 }}>Who I Am</h3>
                 </div>
                 <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)' }}>
-                  I'm a <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Software Engineering undergraduate at SLIIT</span> and a Full Stack Developer Intern at <span style={{ color: 'var(--gold)' }}>Ceylon Innovation PVT</span>. 
+                  I'm a <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Software Engineering undergraduate at SLIIT</span> and a <span style={{ color: 'var(--gold)' }}>Junior Full Stack Developer</span> at Ceylon Innovation PVT. 
                   Within my first month, I independently designed and deployed a production-grade Supermarket ERP & POS system.
                 </p>
                 <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)', marginTop: '12px' }}>
@@ -676,7 +676,7 @@ export default function App() {
               </div>
 
               {/* Location Card */}
-              <div className="bento-card location-card" style={{ gridColumn: '2 / span 1', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+              <div className="bento-card location-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                 <MapPin size={32} color="var(--gold)" style={{ marginBottom: '12px' }} />
                 <h3 className="bento-title" style={{ marginBottom: '4px' }}>Based in</h3>
                 <p style={{ color: 'var(--text-hi)', fontWeight: 600 }}>Sri Lanka</p>
