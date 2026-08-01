@@ -6,13 +6,14 @@ export default function CustomCursor() {
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
-
     const onMove = (e) => {
-      mouseX = e.clientX; mouseY = e.clientY;
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      }
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
       }
     };
 
@@ -25,22 +26,20 @@ export default function CustomCursor() {
       }
     };
 
-    const animate = () => {
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-      }
-      requestAnimationFrame(animate);
-    };
-
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseover', onOver);
-    animate();
+
+    // Hide default cursor
+    document.body.style.cursor = 'none';
+    const style = document.createElement('style');
+    style.innerHTML = `* { cursor: none !important; }`;
+    document.head.appendChild(style);
 
     return () => {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseover', onOver);
+      document.body.style.cursor = 'auto';
+      document.head.removeChild(style);
     };
   }, []);
 
