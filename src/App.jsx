@@ -38,6 +38,9 @@ import imgGymnish1 from './assest/gymnsih/Screenshot 2026-07-22 112910.png';
 import imgGymnish2 from './assest/gymnsih/Screenshot 2026-07-22 112935.png';
 import imgGymnish3 from './assest/gymnsih/Screenshot 2026-07-22 112952.png';
 
+// Profile Image
+import imgProfile from './assest/MyImage/myimge.jpeg';
+
 /* ═══════════════════════════════════════════════════════════
    CONTENT DATA
 ═══════════════════════════════════════════════════════════ */
@@ -654,8 +657,15 @@ export default function App() {
 
             <div className="bento-grid reveal">
               {/* Main Bio Card */}
-              <div className="bento-card bio-card">
-                <h3 className="bento-title">Who I Am</h3>
+              <div className="bento-card bio-card" style={{ gridColumn: '1 / span 1', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                  <img 
+                    src={imgProfile} 
+                    alt="Venura Wickramasingha" 
+                    style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} 
+                  />
+                  <h3 className="bento-title" style={{ margin: 0 }}>Who I Am</h3>
+                </div>
                 <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)' }}>
                   I'm a <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Software Engineering undergraduate at SLIIT</span> and a Full Stack Developer Intern at <span style={{ color: 'var(--gold)' }}>Ceylon Innovation PVT</span>. 
                   Within my first month, I independently designed and deployed a production-grade Supermarket ERP & POS system.
@@ -666,7 +676,7 @@ export default function App() {
               </div>
 
               {/* Location Card */}
-              <div className="bento-card location-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+              <div className="bento-card location-card" style={{ gridColumn: '2 / span 1', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                 <MapPin size={32} color="var(--gold)" style={{ marginBottom: '12px' }} />
                 <h3 className="bento-title" style={{ marginBottom: '4px' }}>Based in</h3>
                 <p style={{ color: 'var(--text-hi)', fontWeight: 600 }}>Sri Lanka</p>
