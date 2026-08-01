@@ -556,22 +556,51 @@ export default function App() {
               enterprise systems and immersive digital products — obsessing over every detail between concept and production.
             </p>
 
-            {/* Status badge */}
+            {/* Status & CTA */}
             <div style={{
-              marginTop: '22px', display: 'inline-flex', alignItems: 'center',
-              gap: '8px', padding: '6px 14px',
-              background: 'rgba(74,222,128,0.06)',
-              border: '1px solid rgba(74,222,128,0.15)',
-              borderRadius: '999px',
+              marginTop: '22px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap'
             }}>
-              <span style={{
-                width: 7, height: 7, borderRadius: '50%',
-                background: '#4ade80', display: 'inline-block',
-                animation: 'pulse 2.5s infinite',
-              }} />
-              <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', color: '#4ade80' }}>
-                OPEN TO OPPORTUNITIES
-              </span>
+              {/* Status badge */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center',
+                gap: '8px', padding: '6px 14px',
+                background: 'rgba(74,222,128,0.06)',
+                border: '1px solid rgba(74,222,128,0.15)',
+                borderRadius: '999px',
+              }}>
+                <span style={{
+                  width: 7, height: 7, borderRadius: '50%',
+                  background: '#4ade80', display: 'inline-block',
+                  animation: 'pulse 2.5s infinite',
+                }} />
+                <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', color: '#4ade80' }}>
+                  OPEN TO OPPORTUNITIES
+                </span>
+              </div>
+
+              {/* Download CV CTA */}
+              <a 
+                href="/cv.html" 
+                target="_blank"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  padding: '6px 16px', background: 'var(--gold-dim)',
+                  border: '1px solid var(--gold-line)', borderRadius: '999px',
+                  color: 'var(--gold-light)', fontSize: '10px', fontWeight: 700,
+                  letterSpacing: '1.5px', textDecoration: 'none', transition: 'all 0.2s ease',
+                  textTransform: 'uppercase'
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'var(--gold)';
+                  e.currentTarget.style.color = '#000';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'var(--gold-dim)';
+                  e.currentTarget.style.color = 'var(--gold-light)';
+                }}
+              >
+                Download CV
+              </a>
             </div>
 
             {/* Navigation */}
