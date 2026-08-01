@@ -99,7 +99,7 @@ const PROJECTS = [
   },
   {
     id: 3,
-    type: 'Client Website',
+    type: 'Client Website · Office Project',
     title: 'Lunudehi Official Band Website',
     desc: 'Modern, fully responsive official website for Lunudehi Band — designed, developed, and deployed with a focus on clean digital experience across all devices.',
     detail: 'Responsible for the complete design, development, and deployment of this project. Built a modern and responsive website that represents the band\'s identity digitally. Delivered with performance and mobile-first design as a priority.',
@@ -119,7 +119,7 @@ const PROJECTS = [
   },
   {
     id: 5,
-    type: 'Client Website',
+    type: 'Client Website · Office Project',
     title: 'Knight Web Production — Event Company',
     desc: 'Professional website for Knight Web Production, an event organising company — built with React and TypeScript for a fast, modern presentation.',
     detail: 'Designed and developed a clean, professional web presence for an event management company. Built with React and TypeScript for type safety and maintainability.',
