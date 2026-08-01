@@ -662,7 +662,7 @@ export default function App() {
                   <img 
                     src={imgProfile} 
                     alt="Venura Wickramasingha" 
-                    style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} 
+                    style={{ width: '96px', height: '96px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} 
                   />
                   <h3 className="bento-title" style={{ margin: 0 }}>Who I Am</h3>
                 </div>
