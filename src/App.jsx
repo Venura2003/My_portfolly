@@ -473,6 +473,7 @@ export default function App() {
   return (
     <div ref={appRef} onMouseMove={handleGlobalMouseMove} style={{ animation: 'fadeIn 0.7s ease-out forwards', minHeight: '100vh', position: 'relative' }}>
       <BackgroundCanvas />
+      <div className="film-grain" />
       <CustomCursor />
       <WireframeGlobe />
       
