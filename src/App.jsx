@@ -468,12 +468,56 @@ export default function App() {
     }
   };
 
+  /* ═══════════════════════════════════════════════════════════
+     SCROLL REVEAL OBSERVER
+  ═══════════════════════════════════════════════════════════ */
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // Optional: observer.unobserve(entry.target) if you only want it to reveal once
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [filter]);
+
+  /* ═══════════════════════════════════════════════════════════
+     3D TILT EFFECT FOR CARDS
+  ═══════════════════════════════════════════════════════════ */
+  const handleCardMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Calculate rotation
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  };
+
+  const handleCardMouseLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+  };
+
   if (loading) return <Preloader onComplete={() => setLoading(false)} />;
 
   return (
     <div ref={appRef} onMouseMove={handleGlobalMouseMove} style={{ animation: 'fadeIn 0.7s ease-out forwards', minHeight: '100vh', position: 'relative' }}>
+      {/* Film Grain Overlay */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 5, pointerEvents: 'none', background: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.08%22/%3E%3C/svg%3E")', mixBlendMode: 'overlay' }} />
+
       <BackgroundCanvas />
-      <div className="film-grain" />
       <CustomCursor />
       <WireframeGlobe />
       
@@ -799,14 +843,28 @@ export default function App() {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2px' }}>
               {PROJECTS.filter(p => activeFilter === 'All' || p.type.includes(activeFilter)).map((p, i) => (
                 <li key={p.id} className={`reveal reveal-d${Math.min(i + 1, 4)}`}>
-                  <div
-                    className="card-hover"
-                    style={{ padding: '22px', margin: '0 -22px', cursor: 'pointer' }}
-                    onClick={() => setSelectedProject(p)}
-                    onMouseEnter={() => setHoverProject(true)}
-                    onMouseLeave={() => setHoverProject(false)}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div
+                      className="card-hover"
+                      style={{ padding: '22px', margin: '0 -22px', cursor: 'pointer', display: 'flex', gap: '20px', alignItems: 'center' }}
+                      onClick={() => setSelectedProject(p)}
+                      onMouseEnter={() => setHoverProject(true)}
+                      onMouseMove={handleCardMouseMove}
+                      onMouseLeave={(e) => {
+                        setHoverProject(false);
+                        handleCardMouseLeave(e);
+                      }}
+                    >
+                      {/* Thumbnail Image */}
+                      {p.images && p.images[0] && (
+                        <div style={{ flexShrink: 0, width: '120px', height: '80px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border)', background: 'var(--bg-hover)' }}>
+                          {p.images[0].endsWith('.mp4') ? (
+                            <video src={p.images[0]} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
+                          ) : (
+                            <img src={p.images[0]} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
+                          )}
+                        </div>
+                      )}
+
                       <div style={{ flex: 1 }}>
                         <div className="text-label" style={{ marginBottom: '8px' }}>{p.type}</div>
                         <h3 style={{
@@ -822,11 +880,10 @@ export default function App() {
                           {p.tech.map(t => <span key={t} className="badge">{t}</span>)}
                         </div>
                       </div>
-                      <div style={{ paddingLeft: '16px', paddingTop: '2px', color: 'var(--text-lo)', flexShrink: 0 }}>
+                      <div style={{ color: 'var(--text-lo)', flexShrink: 0, alignSelf: 'flex-start', paddingTop: '10px' }}>
                         <ArrowRight size={15} style={{ transition: 'transform 0.2s ease, color 0.2s ease' }} />
                       </div>
                     </div>
-                  </div>
                   {i < PROJECTS.length - 1 && (
                     <div style={{ height: '1px', background: 'var(--border)', margin: '4px 0' }} />
                   )}
