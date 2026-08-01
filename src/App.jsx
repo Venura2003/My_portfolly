@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowUpRight, Mail, MapPin, ArrowRight, X } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, ArrowRight, X, Menu } from 'lucide-react';
 import BackgroundCanvas from './components/BackgroundCanvas';
 import CustomCursor from './components/CustomCursor';
 import Preloader from './components/Preloader';
@@ -173,7 +173,7 @@ const SOCIALS = [
   },
   {
     label: 'Email',
-    href: 'mailto:venura.wickramasingha@gmail.com',
+    href: 'mailto:uthsaravenura@gmail.com',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" width={18} height={18}>
         <rect width="20" height="16" x="2" y="4" rx="2"/>
@@ -390,8 +390,10 @@ function SectionLabel({ children }) {
 ═══════════════════════════════════════════════════════════ */
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [selectedProject, setSelectedProject] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('All');
   const [statsVisible, setStatsVisible] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formSent, setFormSent] = useState(false);
@@ -432,6 +434,18 @@ export default function App() {
     return () => observers.forEach(o => o?.disconnect());
   }, [loading]);
 
+  // Lock scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMobileMenuOpen]);
+
   // Trigger stat counters
   useEffect(() => {
     if (loading || !statsRef.current) return;
@@ -461,6 +475,57 @@ export default function App() {
       
       {/* Project Hover Mesh */}
       <div id="project-mesh" className={`project-hover-mesh ${hoverProject ? 'active' : ''}`} />
+
+      {/* Mobile Sticky Header */}
+      <div className="mobile-header">
+        <a href="#about" className="mobile-logo" onClick={() => setIsMobileMenuOpen(false)}>
+          VW
+        </a>
+        <button 
+          className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`} 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation Overlay */}
+      <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+        <nav className="mobile-nav-menu">
+          {NAV_SECTIONS.map((id, index) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className={`mobile-nav-link${activeSection === id ? ' active' : ''}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{ transitionDelay: `${index * 0.05}s` }}
+            >
+              <span className="mobile-nav-num">0{index + 1}.</span>
+              <span className="mobile-nav-label">
+                {id.charAt(0).toUpperCase() + id.slice(1)}
+              </span>
+            </a>
+          ))}
+        </nav>
+        
+        <div className="mobile-nav-footer">
+          <div style={{ display: 'flex', gap: '24px', justifyContent: 'center' }}>
+            {SOCIALS.map(s => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                className="mobile-nav-social-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
 
       <div className="app-layout">
 
@@ -554,45 +619,45 @@ export default function App() {
         ══════════════════════════════════════════════ */}
         <main className="right-panel">
 
-          {/* ── ABOUT ─────────────────────────────── */}
+          {/* ── ABOUT (BENTO BOX LAYOUT) ─────────────────────────────── */}
           <section id="about" style={{ marginBottom: '112px', scrollMarginTop: '88px' }}>
             <SectionLabel>About</SectionLabel>
 
-            <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)' }}>
-                I'm a{' '}
-                <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Software Engineering undergraduate at SLIIT</span>{' '}
-                and a Full Stack Developer Intern at{' '}
-                <span style={{ color: 'var(--gold)' }}>Ceylon Innovation PVT</span>.
-                Within my first month of internship, I independently designed, built, and deployed a
-                production-grade Supermarket ERP & POS system — and haven't slowed down since.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)' }}>
-                Beyond my day job, I collaborate remotely with a dedicated team of friends during the night to build real-world products. A prime example is our fully-fledged <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Gym Management System</span>, which is already live and operating in production.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)' }}>
-                I work across the full stack — from{' '}
-                <span style={{ color: 'var(--gold)' }}>Flutter</span> mobile apps and{' '}
-                <span style={{ color: 'var(--gold)' }}>.NET</span> backends to{' '}
-                <span style={{ color: 'var(--gold)' }}>React</span> frontends and SQL databases.
-                I've shipped 7+ real systems for real clients — spanning agriculture, automotive,
-                event management, retail, and fitness industries.
-              </p>
-            </div>
+            <div className="bento-grid reveal">
+              {/* Main Bio Card */}
+              <div className="bento-card bio-card">
+                <h3 className="bento-title">Who I Am</h3>
+                <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)' }}>
+                  I'm a <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Software Engineering undergraduate at SLIIT</span> and a Full Stack Developer Intern at <span style={{ color: 'var(--gold)' }}>Ceylon Innovation PVT</span>. 
+                  Within my first month, I independently designed and deployed a production-grade Supermarket ERP & POS system.
+                </p>
+                <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)', marginTop: '12px' }}>
+                  I work across the full stack — from Flutter mobile apps to .NET backends and React frontends. I've shipped 7+ real systems for real clients.
+                </p>
+              </div>
 
-            {/* Skills grid */}
-            <div className="reveal reveal-d2" style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr',
-              gap: '28px', marginTop: '32px',
-            }}>
-              {SKILLS.map(s => (
-                <div key={s.cat}>
-                  <div className="text-label" style={{ marginBottom: '10px' }}>{s.cat}</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {s.items.map(item => <span key={item} className="badge">{item}</span>)}
-                  </div>
+              {/* Location Card */}
+              <div className="bento-card location-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+                <MapPin size={32} color="var(--gold)" style={{ marginBottom: '12px' }} />
+                <h3 className="bento-title" style={{ marginBottom: '4px' }}>Based in</h3>
+                <p style={{ color: 'var(--text-hi)', fontWeight: 600 }}>Sri Lanka</p>
+                <p style={{ fontSize: '12px', color: 'var(--text-md)', marginTop: '4px' }}>Available globally</p>
+              </div>
+
+              {/* Skills Matrix */}
+              <div className="bento-card skills-card" style={{ gridColumn: '1 / -1' }}>
+                <h3 className="bento-title" style={{ marginBottom: '20px' }}>Tech Stack</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px' }}>
+                  {SKILLS.map(s => (
+                    <div key={s.cat}>
+                      <div className="text-label" style={{ marginBottom: '10px' }}>{s.cat}</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                        {s.items.map(item => <span key={item} className="badge">{item}</span>)}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
 
             {/* STAT COUNTERS — WOW FACTOR 3 */}
@@ -664,9 +729,35 @@ export default function App() {
 
           {/* ── PROJECTS ──────────────────────────── */}
           <section id="projects" style={{ marginBottom: '112px', scrollMarginTop: '88px' }}>
-            <SectionLabel>Projects</SectionLabel>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
+              <SectionLabel>Projects</SectionLabel>
+              
+              <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px' }} className="project-filters hide-scrollbar">
+                {['All', 'Enterprise', 'Client', 'Live'].map(f => (
+                  <button
+                    key={f}
+                    onClick={() => setActiveFilter(f)}
+                    style={{
+                      background: activeFilter === f ? 'var(--gold-dim)' : 'transparent',
+                      color: activeFilter === f ? 'var(--gold)' : 'var(--text-md)',
+                      border: `1px solid ${activeFilter === f ? 'var(--gold-line)' : 'var(--border)'}`,
+                      padding: '4px 12px',
+                      borderRadius: '999px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-              {PROJECTS.map((p, i) => (
+              {PROJECTS.filter(p => activeFilter === 'All' || p.type.includes(activeFilter)).map((p, i) => (
                 <li key={p.id} className={`reveal reveal-d${Math.min(i + 1, 4)}`}>
                   <div
                     className="card-hover"
@@ -717,7 +808,7 @@ export default function App() {
               {/* Contact meta */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '40px' }}>
                 {[
-                  { Icon: Mail, text: 'venura.wickramasingha@gmail.com', href: 'mailto:venura.wickramasingha@gmail.com' },
+                  { Icon: Mail, text: 'uthsaravenura@gmail.com', href: 'mailto:uthsaravenura@gmail.com' },
                   { Icon: MapPin, text: 'Colombo, Sri Lanka — Open to Remote', href: null },
                 ].map(({ Icon, text, href }) => (
                   <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
