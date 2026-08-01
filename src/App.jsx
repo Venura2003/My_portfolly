@@ -485,7 +485,7 @@ export default function App() {
     revealElements.forEach(el => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [filter]);
+  }, [activeFilter]);
 
   /* ═══════════════════════════════════════════════════════════
      3D TILT EFFECT FOR CARDS
