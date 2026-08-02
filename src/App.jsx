@@ -57,7 +57,7 @@ const EXPERIENCE = [
     title: 'Junior Full Stack Developer',
     company: 'Ceylon Innovation PVT',
     location: 'Sri Lanka',
-    desc: 'Building full-stack enterprise systems from day one. Within the first month independently architected and deployed a complete Supermarket ERP & POS platform. Progressed to deliver real-world client-based systems across agriculture, automotive, and event management sectors.',
+    desc: 'Promoted to a permanent Junior Full Stack Developer after successfully completing a 6-month internship (Jan 2026 – July 2026). Building full-stack enterprise systems from day one. Within the first month independently architected and deployed a complete Supermarket ERP & POS platform. Progressed to deliver real-world client-based systems across agriculture, automotive, and event management sectors.',
     tech: ['Flutter', '.NET', 'MySQL', 'React', 'Azure', 'Render', 'Vercel'],
   },
   {
@@ -71,7 +71,7 @@ const EXPERIENCE = [
     title: 'IT Undergraduate',
     company: 'SLIIT — Sri Lanka Institute of Information Technology',
     location: 'Colombo',
-    desc: 'Pursuing a Software Engineering degree with hands-on exposure to enterprise software architecture, mobile development, and full-stack web systems. Combining academic learning with real-world production delivery.',
+    desc: 'Currently in my 4th Year, 1st Semester pursuing a Software Engineering degree with hands-on exposure to enterprise software architecture, mobile development, and full-stack web systems. Combining academic learning with real-world production delivery.',
     tech: ['Software Engineering', 'Algorithms', 'Database Design', 'OOP'],
   },
 ];
