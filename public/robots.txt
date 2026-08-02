@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://my-portfolly.vercel.app/sitemap.xml
+Sitemap: https://venurawickramasingha.vercel.app/sitemap.xml
