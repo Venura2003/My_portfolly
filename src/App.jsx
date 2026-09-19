@@ -65,7 +65,7 @@ const EXPERIENCE = [
     company: 'Ceylon Innovation PVT',
     period: 'Jan 2026 – Present',
     location: 'Sri Lanka',
-    desc: 'Promoted to a permanent Junior Full Stack Developer after successfully completing a 6-month internship (Jan 2026 – July 2026). Building full-stack enterprise systems from day one. Within the first month independently architected and deployed a complete Supermarket ERP & POS platform. Progressed to deliver real-world client-based systems across agriculture, automotive, and event management sectors.',
+    desc: 'Building full-stack enterprise systems from day one. Within the first month, independently architected and deployed a complete production-grade Supermarket ERP & POS platform. Delivered real-world client systems across retail POS, agriculture, automotive trading, and event management sectors.',
     tech: ['Flutter', '.NET', 'MySQL', 'React', 'Azure', 'Render', 'Vercel'],
   },
   {
