@@ -61,8 +61,8 @@ const ROLES = [
 
 const EXPERIENCE = [
   {
-    title: 'Junior Full Stack Developer',
-    company: 'Ceylon Innovation PVT',
+    title: 'Full Stack Software Engineer',
+    company: 'Ceylon Innovation Services',
     period: 'Jan 2026 – Present',
     location: 'Sri Lanka',
     desc: 'Building full-stack enterprise systems from day one. Within the first month, independently architected and deployed a complete production-grade Supermarket ERP & POS platform. Delivered real-world client systems across retail POS, agriculture, automotive trading, and event management sectors.',
@@ -92,7 +92,7 @@ const PROJECTS = [
     type: 'Enterprise · Internship',
     title: 'Supermarket ERP & POS System',
     desc: 'Full-stack supermarket management platform with role-based dashboards for Admin and Employee users — covering inventory, billing, HR, payroll, and financial reporting.',
-    detail: 'Built independently within my first month at Ceylon Innovation PVT. Features role-based access for Admin and Employee users, real-time inventory tracking, billing engine, HR module with payroll, and financial dashboards. Deployed across Render, Vercel, and Azure.',
+    detail: 'Built independently within my first month at Ceylon Innovation Services. Features role-based access for Admin and Employee users, real-time inventory tracking, billing engine, HR module with payroll, and financial dashboards. Deployed across Render, Vercel, and Azure.',
     features: [
       'Role-Based Admin & Cashier Employee Dashboards',
       'High-Speed POS Checkout Terminal with Offline Buffering',
@@ -109,7 +109,7 @@ const PROJECTS = [
     type: 'Client System · Internship',
     title: 'Leaf Intel — Tea Collection System',
     desc: 'Client-facing web application for managing tea leaf collection workflows — tracking farmer submissions, weights, and processing records in real time.',
-    detail: 'A real-world production system built for an agricultural client at Ceylon Innovation PVT. Manages the end-to-end tea collection process — from farmer leaf submissions to processing records and payment tracking. Built with Flutter frontend, .NET backend, and SQL database.',
+    detail: 'A real-world production system built for an agricultural client at Ceylon Innovation Services. Manages the end-to-end tea collection process — from farmer leaf submissions to processing records and payment tracking. Built with Flutter frontend, .NET backend, and SQL database.',
     features: [
       'Farmer Leaf Collection & Real-Time Weight Entry',
       'Factory Processing & Quality Grade Tracing Logs',
@@ -1070,7 +1070,7 @@ export default function App() {
                   <h3 className="bento-title" style={{ margin: 0 }}>Who I Am</h3>
                 </div>
                 <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)' }}>
-                  I'm a <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Software Engineering undergraduate at SLIIT</span> and a <span style={{ color: 'var(--gold)' }}>Junior Full Stack Developer</span> at Ceylon Innovation PVT. 
+                  I'm a <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>Software Engineering undergraduate at SLIIT</span> and a <span style={{ color: 'var(--gold)' }}>Full Stack Software Engineer</span> at Ceylon Innovation Services. 
                   Within my first month, I independently designed and deployed a production-grade Supermarket ERP & POS system.
                 </p>
                 <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)', marginTop: '12px' }}>
