@@ -55,7 +55,7 @@ const ROLES = [
   'Full Stack Developer',
   'Mobile App Developer',
   'Enterprise Systems Builder',
-  'Software Engineering Intern',
+  'Software Engineer',
   'Flutter & .NET Developer',
 ];
 
@@ -89,7 +89,7 @@ const EXPERIENCE = [
 const PROJECTS = [
   {
     id: 1,
-    type: 'Enterprise · Internship',
+    type: 'Enterprise System',
     title: 'Supermarket ERP & POS System',
     desc: 'Full-stack supermarket management platform with role-based dashboards for Admin and Employee users — covering inventory, billing, HR, payroll, and financial reporting.',
     detail: 'Built independently within my first month at Ceylon Innovation Services. Features role-based access for Admin and Employee users, real-time inventory tracking, billing engine, HR module with payroll, and financial dashboards. Deployed across Render, Vercel, and Azure.',
@@ -106,7 +106,7 @@ const PROJECTS = [
   },
   {
     id: 2,
-    type: 'Client System · Internship',
+    type: 'Client System',
     title: 'Leaf Intel — Tea Collection System',
     desc: 'Client-facing web application for managing tea leaf collection workflows — tracking farmer submissions, weights, and processing records in real time.',
     detail: 'A real-world production system built for an agricultural client at Ceylon Innovation Services. Manages the end-to-end tea collection process — from farmer leaf submissions to processing records and payment tracking. Built with Flutter frontend, .NET backend, and SQL database.',
@@ -140,7 +140,7 @@ const PROJECTS = [
   },
   {
     id: 4,
-    type: 'Client System · Internship',
+    type: 'Client System',
     title: 'Super Sonic Auto Trading Platform',
     desc: 'Comprehensive operations management system for a major automotive client, streamlining the process of buying vehicles from Japan auctions, dismantling them, and extracting parts.',
     detail: 'A robust client system managing the complex lifecycle of automotive trading. It specifically tracks the entire workflow: acquiring vehicles from Japanese auctions, the dismantling process, and the extraction and inventory management of individual spare parts. Built utilizing Flutter for mobile interfaces, .NET for the backend logic, and SQL for the core database.',
@@ -248,7 +248,7 @@ const SOCIALS = [
 
 const STATS = [
   { value: 7, suffix: '+', label: 'Projects shipped to production' },
-  { value: 6, suffix: ' mo', label: 'Enterprise internship at Ceylon Innovation' },
+  { value: 6, suffix: ' mo', label: 'Enterprise Experience at Ceylon Innovation' },
   { value: 3, suffix: '+', label: 'Real-world clients served' },
 ];
 
