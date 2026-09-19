@@ -248,7 +248,7 @@ const SOCIALS = [
 
 const STATS = [
   { value: 7, suffix: '+', label: 'Projects shipped to production' },
-  { value: 6, suffix: ' mo', label: 'Enterprise Experience at Ceylon Innovation' },
+  { value: 8, suffix: ' mo', label: 'Enterprise Experience at Ceylon Innovation' },
   { value: 3, suffix: '+', label: 'Real-world clients served' },
 ];
 
