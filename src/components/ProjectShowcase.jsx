@@ -72,7 +72,7 @@ export default function ProjectShowcase() {
                       {p.type.toUpperCase()}
                     </span>
                     <span style={{ width: 1, height: 10, background: 'rgba(255,255,255,0.1)' }} />
-                    <span style={{ fontSize: '10px', color: '#484f58', letterSpacing: '1px' }}>{p.year}</span>
+                    <span style={{ fontSize: '10px', color: '#94a3b8', letterSpacing: '1px' }}>{p.year}</span>
                   </div>
 
                   <h3 style={{
@@ -82,7 +82,7 @@ export default function ProjectShowcase() {
                   }}>
                     {p.title}
                   </h3>
-                  <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#8b949e', marginBottom: '12px' }}>
+                  <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#94a3b8', marginBottom: '12px' }}>
                     {p.desc}
                   </p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
@@ -94,7 +94,7 @@ export default function ProjectShowcase() {
 
                 {/* Arrow icon */}
                 <div style={{
-                  color: '#484f58', paddingTop: '4px',
+                  color: '#94a3b8', paddingTop: '4px',
                   transition: 'color 0.2s ease, transform 0.2s ease',
                 }}>
                   <ArrowRight size={16} />

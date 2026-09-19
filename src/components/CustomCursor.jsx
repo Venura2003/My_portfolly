@@ -5,7 +5,36 @@ export default function CustomCursor() {
   const ringRef = useRef(null);
   const [hovered, setHovered] = useState(false);
 
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+    }
+    return false;
+  });
+
   useEffect(() => {
+    const checkMobile = () => {
+      const touchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+      setIsMobile(touchDevice);
+    };
+    checkMobile();
+
+    const onTouch = () => setIsMobile(true);
+
+    window.addEventListener('resize', checkMobile);
+    window.addEventListener('touchstart', onTouch, { passive: true });
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('touchstart', onTouch);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      document.body.style.cursor = 'auto';
+      return;
+    }
+
     const onMove = (e) => {
       const mouseX = e.clientX;
       const mouseY = e.clientY;
@@ -29,23 +58,27 @@ export default function CustomCursor() {
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseover', onOver);
 
-    // Hide default cursor
+    // Hide default cursor on desktop
     document.body.style.cursor = 'none';
     const style = document.createElement('style');
-    style.innerHTML = `* { cursor: none !important; }`;
+    style.id = 'custom-cursor-style';
+    style.innerHTML = `@media (min-width: 1025px) { * { cursor: none !important; } }`;
     document.head.appendChild(style);
 
     return () => {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseover', onOver);
       document.body.style.cursor = 'auto';
-      document.head.removeChild(style);
+      const el = document.getElementById('custom-cursor-style');
+      if (el) document.head.removeChild(el);
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <>
-      <div ref={dotRef} style={{
+      <div ref={dotRef} className="custom-cursor-element" style={{
         position: 'fixed', top: -3, left: -3,
         width: 6, height: 6, borderRadius: '50%',
         backgroundColor: hovered ? 'transparent' : '#c9a84c',
@@ -53,7 +86,7 @@ export default function CustomCursor() {
         transition: 'background-color 0.2s ease',
         transform: 'translate3d(0,0,0)',
       }} />
-      <div ref={ringRef} style={{
+      <div ref={ringRef} className="custom-cursor-element" style={{
         position: 'fixed', top: -18, left: -18,
         width: hovered ? 52 : 36, height: hovered ? 52 : 36,
         borderRadius: '50%',
@@ -66,3 +99,4 @@ export default function CustomCursor() {
     </>
   );
 }
+

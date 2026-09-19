@@ -15,18 +15,18 @@ export default function Preloader({ onComplete }) {
   useEffect(() => {
     const timer = setInterval(() => {
       setProgress(p => {
-        const next = Math.min(p + Math.random() * 3.5 + 0.8, 100);
+        const next = Math.min(p + Math.random() * 14 + 10, 100);
         STAGES.forEach(s => { if (p < s.at && next >= s.at) setStatus(s.msg); });
         if (next >= 100) {
           clearInterval(timer);
           setTimeout(() => {
             setExiting(true);
-            setTimeout(onComplete, 700);
-          }, 500);
+            setTimeout(onComplete, 300);
+          }, 150);
         }
         return next;
       });
-    }, 55);
+    }, 30);
     return () => clearInterval(timer);
   }, [onComplete]);
 
@@ -39,7 +39,7 @@ export default function Preloader({ onComplete }) {
       zIndex: 99999,
       fontFamily: "'Inter', system-ui, sans-serif",
       opacity: exiting ? 0 : 1,
-      transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+      transition: 'opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
     }}>
       {/* Wordmark */}
       <div style={{
@@ -57,13 +57,13 @@ export default function Preloader({ onComplete }) {
         letterSpacing: '-4px', fontVariantNumeric: 'tabular-nums',
       }}>
         {String(Math.floor(progress)).padStart(2, '0')}
-        <span style={{ fontSize: '28px', color: '#3d4f63', letterSpacing: '0' }}>%</span>
+        <span style={{ fontSize: '28px', color: '#8b949e', letterSpacing: '0' }}>%</span>
       </div>
 
       {/* Progress bar */}
       <div style={{
         width: '220px', height: '1px',
-        background: 'rgba(198,168,75,0.08)',
+        background: 'rgba(198,168,75,0.15)',
         position: 'relative', marginBottom: '22px',
         overflow: 'hidden',
       }}>
@@ -71,15 +71,15 @@ export default function Preloader({ onComplete }) {
           position: 'absolute', left: 0, top: 0, bottom: 0,
           background: 'linear-gradient(90deg, #c6a84b, #d9bc72)',
           width: `${progress}%`,
-          transition: 'width 0.12s linear',
+          transition: 'width 0.08s linear',
         }} />
       </div>
 
       {/* Status */}
       <p style={{
-        fontSize: '11px', color: '#3d4f63',
+        fontSize: '11px', color: '#94a3b8',
         letterSpacing: '0.5px', minHeight: '16px',
-        transition: 'opacity 0.3s ease',
+        transition: 'opacity 0.2s ease',
       }}>
         {status}
       </p>

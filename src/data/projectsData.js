@@ -107,29 +107,31 @@ export const projectsData = [
   },
   {
     id: 5,
-    title: 'Gymnish SaaS Web',
-    category: 'Luxury Marketing Website',
-    tech: ['React', 'TypeScript', 'Framer Motion', 'Lenis'],
-    summary: 'A luxury SaaS marketing website showcasing the Gym Management platform using cinematic visuals and conversion design.',
-    problem: 'The SaaS platform had excellent utility but lacked a high-end marketing website that could attract premium, enterprise-level gym franchises.',
-    goal: 'Create an emotional, cinematic marketing presence with high-impact scroll storytelling, smooth animations, and premium visual layouts.',
-    research: 'Studied premium SaaS websites like Linear and Stripe. Found that smooth kinetic typography and dynamic scroll-reveals increased user engagement time by 3x.',
-    architecture: 'Modern React application utilizing Framer Motion for scroll-driven choreographies and Lenis for unified smooth-scrolling experience.',
+    title: 'Super Sonic Sales POS',
+    category: 'Full-Stack Enterprise POS & PWA',
+    tech: ['Flutter Web', 'ASP.NET Core', 'SQL Server', 'GetX', 'EF Core', 'PWA'],
+    summary: 'A modern, high-performance Point of Sale (POS) and inventory management web application engineered for retail and small-to-medium businesses.',
+    problem: 'Retail businesses struggled with slow cashier checkouts, inaccurate manual stock counts, fragmented expense records, and system downtime during network drops.',
+    goal: 'Engineered a real-time, responsive POS platform featuring fast transaction processing, automated inventory control, expense tracking, and offline PWA reliability.',
+    research: 'Analyzed checkout workflows in retail stores. Found that manual cashier billing and delayed stock adjustments caused long customer queues and frequent inventory leaks.',
+    architecture: 'Clean Layered Architecture: Responsive Flutter Web frontend (GetX, Material 3) connecting via RESTful APIs to a scalable ASP.NET Core backend with Entity Framework Core and SQL Server.',
     features: [
-      'Cinematic Hero: Interactive typography and scale-up reveals.',
-      'Kinetic Feature Stories: Scroll-triggered visual feature walkthroughs.',
-      'Interactive Price Calculator: Dynamic subscription cost sliders.'
+      'Fast Checkout POS: Optimized point-of-sale workflow for seamless transactions and billing.',
+      'Real-Time Stock Control: Live tracking of stock levels, adjustments, and automated stock alerts.',
+      'Expense Management: Built-in operational expense tracking with financial analytics dashboards.',
+      'Material 3 Cross-Platform: Adaptive light/dark UI optimized for Desktop, Tablet, and Mobile screens.',
+      'Progressive Web App (PWA): Native offline capability and fast asset caching.'
     ],
-    challenges: 'Maintaining flawless 60fps scroll animations on mobile devices while rendering heavy graphics and nested motion elements.',
-    solution: 'Utilized hardware-accelerated CSS properties, avoided layout shifts, and decoupled scroll triggers using React refs and requestAnimationFrame.',
+    challenges: 'Maintaining responsive UI performance during rapid barcode scanning and high-throughput transaction updates on web viewports.',
+    solution: 'Implemented GetX state management for reactive UI updates and asynchronous API queueing with EF Core database query optimizations.',
     metrics: {
-      fps: 'Constant 60fps on mobile viewports',
-      engagement: 'User time-on-site increased by 210%',
-      conversions: '35% lift in demo booking clicks'
+      latency: '< 150ms checkout billing speed',
+      responsiveness: '100% responsive across Desktop, Tablet & Mobile',
+      offline: 'Full PWA offline caching enabled'
     },
-    timeline: '2 Months',
-    results: 'Positioned the SaaS as a premier market solution, securing partnership pilots with 4 international premium gym chains within 30 days.',
-    future: 'Incorporate localized currency matching and interactive video testimonials.'
+    timeline: '3 Months (Full Stack Architecture & Development)',
+    results: 'Accelerated cashier checkout throughput, eliminated stock audit discrepancies, and delivered a production-ready PWA for retail clients.',
+    future: 'Add multi-store franchise sync and automated supplier purchase order generation.'
   },
   {
     id: 6,

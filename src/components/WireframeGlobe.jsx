@@ -128,16 +128,17 @@ export default function WireframeGlobe() {
       ref={canvasRef}
       className="wireframe-globe-container"
       style={{
-        width: '400px',
-        height: '400px',
-        opacity: 0.6,
+        width: '320px',
+        height: '320px',
+        opacity: 0.28,
         pointerEvents: 'none',
         position: 'absolute',
         top: '50%',
-        right: '-50px',
-        transform: 'translateY(-50%)',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
         zIndex: 0
       }}
     />
   );
 }
+
