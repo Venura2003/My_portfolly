@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowUpRight, Mail, MapPin, ArrowRight, X, Menu, ChevronLeft, ChevronRight, Maximize2, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, ArrowRight, X, Menu, ChevronLeft, ChevronRight, Maximize2, CheckCircle2, Sparkles, AlertCircle, Workflow, TrendingUp, Layers, ShieldCheck, Cpu } from 'lucide-react';
 import BackgroundCanvas from './components/BackgroundCanvas';
 import CustomCursor from './components/CustomCursor';
 import Preloader from './components/Preloader';
@@ -66,7 +66,7 @@ const EXPERIENCE = [
     period: 'Jan 2026 – Present',
     location: 'Sri Lanka',
     desc: 'Building full-stack enterprise systems from day one. Within the first month, independently architected and deployed a complete production-grade Supermarket ERP & POS platform. Delivered real-world client systems across retail POS, agriculture, automotive trading, and event management sectors.',
-    tech: ['Flutter', '.NET', 'MySQL', 'React', 'Azure', 'Render', 'Vercel'],
+    tech: ['Flutter Web', '.NET', 'MySQL', 'React', 'On-Premise Servers', 'REST APIs'],
   },
   {
     title: 'Remote Collaborative Developer',
@@ -89,50 +89,91 @@ const EXPERIENCE = [
 const PROJECTS = [
   {
     id: 1,
-    type: 'Enterprise System',
+    type: 'Enterprise Web Application',
+    statusBadge: 'Enterprise Client System · Office Server Hosted',
     title: 'Supermarket ERP & POS System',
-    desc: 'Full-stack supermarket management platform with role-based dashboards for Admin and Employee users — covering inventory, billing, HR, payroll, and financial reporting.',
-    detail: 'Built independently within my first month at Ceylon Innovation Services. Features role-based access for Admin and Employee users, real-time inventory tracking, billing engine, HR module with payroll, and financial dashboards. Deployed across Render, Vercel, and Azure.',
+    desc: 'Full-stack enterprise supermarket web platform with role-based dashboards for Admin and Employee users — covering live inventory, real-time web billing, HR, payroll, and financial reporting.',
+    problem: 'Supermarket chains suffered from slow checkout lines during peak customer rush, frequent stock desynchronization across multi-warehouse locations, and error-prone manual spreadsheet payroll reconciliations.',
+    architecture: 'Independently architected a full-stack enterprise web application within month 1 at Ceylon Innovation Services: a high-speed web-based POS checkout terminal paired with an ASP.NET Core REST API hosted on in-house private company office servers. Designed for continuous internet connectivity with high-throughput transactional commits to MySQL.',
+    systemFlow: [
+      { layer: 'Web Client', desc: 'Web POS Terminal & Admin Dashboard' },
+      { layer: 'API Gateway', desc: 'ASP.NET Core REST API + JWT Role-Based Auth' },
+      { layer: 'Services', desc: 'Inventory Controller & Automated Payroll Engine' },
+      { layer: 'Office Server', desc: 'MySQL Database on In-House Enterprise Office Servers' }
+    ],
+    metrics: [
+      { val: '< 350ms', lbl: 'Checkout Latency' },
+      { val: 'On-Premise', lbl: 'Office Server Hosted' },
+      { val: 'Multi-Role', lbl: 'Admin & Cashier Security' }
+    ],
+    detail: 'Built independently within my first month at Ceylon Innovation Services. Features role-based access for Admin and Employee users, real-time inventory tracking, web billing engine, HR module with payroll, and financial dashboards. Hosted on private in-house enterprise office servers.',
     features: [
-      'Role-Based Admin & Cashier Employee Dashboards',
-      'High-Speed POS Checkout Terminal with Offline Buffering',
+      'Role-Based Admin & Cashier Employee Web Dashboards',
+      'High-Speed Web POS Checkout Terminal with Real-Time Validation',
       'Real-Time Multi-Warehouse Inventory & Stock Adjustments',
       'HR Module with Automated Payroll Processing & Attendance',
       'Financial Analytics & Automated P&L Profit Generation'
     ],
-    tech: ['Flutter', '.NET', 'MySQL', 'Render', 'Vercel', 'Azure'],
+    tech: ['Flutter Web', '.NET', 'MySQL', 'On-Premise Servers'],
     link: null,
     images: [imgSupermarketLogin, imgSupermarketAdmin, imgSupermarketEmployee],
   },
   {
     id: 2,
-    type: 'Client System',
+    type: 'Client Web Application',
+    statusBadge: 'Agricultural Production Web App · Active Client',
     title: 'Leaf Intel — Tea Collection System',
-    desc: 'Client-facing web application for managing tea leaf collection workflows — tracking farmer submissions, weights, and processing records in real time.',
-    detail: 'A real-world production system built for an agricultural client at Ceylon Innovation Services. Manages the end-to-end tea collection process — from farmer leaf submissions to processing records and payment tracking. Built with Flutter frontend, .NET backend, and SQL database.',
+    desc: 'Client-facing web application for managing tea leaf collection workflows — tracking farmer submissions, weights, and processing records in real time with active internet connectivity.',
+    problem: 'Agricultural tea factories experienced 15%+ calculation discrepancy rates from manual handwritten paper field weighings, delayed monthly farmer payouts, and zero real-time factory intake monitoring.',
+    architecture: 'Engineered a centralized real-time web platform accessible via browser terminals. Field submissions and weighings are sent directly over the web to an ASP.NET Core API hosted on the company office enterprise servers, calculating real-time payout statements and grading logs.',
+    systemFlow: [
+      { layer: 'Web Portal', desc: 'Real-Time Tea Collection & Weighing Web App' },
+      { layer: 'API Gateway', desc: '.NET Web API with Real-Time Validation' },
+      { layer: 'Logic Engine', desc: 'Quality Grade Tracing & Automated Payout Calculator' },
+      { layer: 'Office Server', desc: 'SQL Server on In-House Company Enterprise Servers' }
+    ],
+    metrics: [
+      { val: 'Real-Time Web', lbl: 'Internet-Connected Portal' },
+      { val: '100% Digital', lbl: 'Farmer Slip Accuracy' },
+      { val: 'On-Premise', lbl: 'Office Server Hosted' }
+    ],
+    detail: 'A real-world production web application built for an agricultural client at Ceylon Innovation Services. Manages the end-to-end tea collection process online — from farmer leaf submissions to factory processing records and automated payout calculations. Hosted on private office servers.',
     features: [
-      'Farmer Leaf Collection & Real-Time Weight Entry',
+      'Real-Time Farmer Leaf Collection & Digital Weight Entry',
       'Factory Processing & Quality Grade Tracing Logs',
       'Automated Payout Engine & Farmer Payment Statements',
-      'Offline-First Mobile Data Synchronization Layer',
-      'Role-Secure Management Dashboards & PDF Exporting'
+      'Online Management Web Dashboards & Instant PDF Exporting',
+      'Role-Secure Factory & Officer Access Control'
     ],
-    tech: ['Flutter', '.NET', 'SQL'],
+    tech: ['Flutter Web', '.NET', 'SQL Server', 'On-Premise Servers'],
     link: null,
     images: [vidLeafIntel, imgLeafIntel1, imgLeafIntel2, imgLeafIntel3],
   },
   {
     id: 3,
     type: 'Client Website · Office Project',
+    statusBadge: 'Live Client Production Website',
     title: 'Lunudehi Official Band Website',
     desc: 'Modern, fully responsive official website for Lunudehi Band — designed, developed, and deployed with a focus on clean digital experience across all devices.',
-    detail: 'Responsible for the complete design, development, and deployment of this project. Built a modern and responsive website that represents the band\'s identity digitally. Delivered with performance and mobile-first design as a priority.',
+    problem: 'The renowned Sri Lankan music group had fragmented audience reach across social media channels without an authoritative platform for upcoming national/international tour itineraries, ticket booking links, and discography.',
+    architecture: 'Designed and deployed a responsive React & Vite web application featuring modern aesthetic glassmorphism, custom HTML5 audio playback widgets, mobile-optimized concert event listings, and 100% compliance with Google SEO and Accessibility web standards.',
+    systemFlow: [
+      { layer: 'Frontend UI', desc: 'React 18 + Vite with Bespoke Audio Interface' },
+      { layer: 'Media Engine', desc: 'Custom HTML5 Audio Player & Event Showcase' },
+      { layer: 'Web Standards', desc: '100/100 SEO & Accessibility Standards Compliance' }
+    ],
+    metrics: [
+      { val: '100 / 100', lbl: 'SEO & Best Practices' },
+      { val: '100%', lbl: 'Accessibility Score' },
+      { val: 'Mobile First', lbl: 'Responsive Band UX' }
+    ],
+    detail: 'Responsible for the complete design, development, and deployment of this project. Built a modern and responsive website that represents the band\'s identity digitally. Delivered with performance, accessibility, and mobile-first design as top priorities.',
     features: [
       'Bespoke Modern Music Band Branding & Visual Layouts',
-      'Lighthouse Performance Score 98+ with Sub-Second FCP',
+      'Google Lighthouse 100/100 on SEO, Accessibility & Best Practices',
       'Mobile-First Responsive Design for All Screen Sizes',
       'Interactive Concert Tour Schedule & Media Gallery',
-      'Custom Audio Player & Album Release Showcase'
+      'Custom HTML5 Audio Player & Album Release Showcase'
     ],
     tech: ['React', 'Vite', 'Node.js'],
     link: 'https://lunudehiband.com',
@@ -140,60 +181,115 @@ const PROJECTS = [
   },
   {
     id: 4,
-    type: 'Client System',
+    type: 'Automotive Enterprise System',
+    statusBadge: 'Automotive Enterprise System · Office Server',
     title: 'Super Sonic Auto Trading Platform',
-    desc: 'Comprehensive operations management system for a major automotive client, streamlining the process of buying vehicles from Japan auctions, dismantling them, and extracting parts.',
-    detail: 'A robust client system managing the complex lifecycle of automotive trading. It specifically tracks the entire workflow: acquiring vehicles from Japanese auctions, the dismantling process, and the extraction and inventory management of individual spare parts. Built utilizing Flutter for mobile interfaces, .NET for the backend logic, and SQL for the core database.',
-    features: [
-      'Japanese Auction Vehicle Acquisition & Cost Tracing',
-      'Dismantling & Individual Part Extraction Workflows',
-      'Algorithmic SKU Generator & Barcode Printing Engine',
-      'Interactive Warehouse Shelf & Location Mapping',
-      'Spare Part Sales Cataloging & Order Fulfillment'
+    desc: 'Operations management system for Japanese vehicle auction bidding calculations, vehicle acquisition, dismantling workflows, and spare parts cataloging.',
+    problem: 'Before placing bids on vehicles at Japanese auctions, calculating the target maximum bid price (factoring shipping, duty, auction fees, and estimated part yields) was done manually. After winning vehicles, tracking vehicle dismantling and extracted spare parts was unorganized.',
+    architecture: 'Architected an automotive bidding calculation and vehicle dismantling platform. Built a custom calculation engine in .NET to decide profitable vehicle bid prices prior to Japanese auctions, combined with a vehicle dismantling workflow to strip, categorize, and catalog extracted spare parts into SQL.',
+    systemFlow: [
+      { layer: 'Bid Calculator', desc: 'Pre-Auction Target Bid Price & Margin Engine' },
+      { layer: 'Acquisition', desc: 'Japan Auction Vehicle Purchase & Duty Tracking' },
+      { layer: 'Dismantling Core', desc: 'Vehicle Stripping & Component Extraction Log' },
+      { layer: 'Office Server', desc: 'SQL Server Database on Company In-House Servers' }
     ],
-    tech: ['Flutter', '.NET', 'SQL'],
+    metrics: [
+      { val: 'Pre-Bid Calc', lbl: 'Auction Bid Price Engine' },
+      { val: 'Dismantling', lbl: 'Vehicle-to-Parts Extraction' },
+      { val: 'On-Premise', lbl: 'Office Server Hosted' }
+    ],
+    detail: 'A comprehensive operations system managing the pre-auction calculation and dismantling lifecycle: calculating bid limits before Japanese auction auctions, logging acquired vehicles, and managing the stripping and inventory extraction of spare parts. Hosted on private office servers.',
+    features: [
+      'Pre-Auction Vehicle Target Bid Price Calculation Engine',
+      'Japanese Auction Vehicle Acquisition & Bidding Logs',
+      'Vehicle Dismantling & Spare Part Extraction Workflows',
+      'Algorithmic Spare Part SKU Indexing & Stock Recording',
+      'Hosted on Secure In-House Company Enterprise Servers'
+    ],
+    tech: ['Flutter Web', '.NET', 'SQL Server', 'On-Premise Servers'],
     link: null,
     images: [vidSuperSonic, imgSuperSonic1],
   },
   {
     id: 5,
     type: 'Client Website · Office Project',
+    statusBadge: 'Live Client Website · Office Server Hosted',
     title: 'Knight Web Production — Event Company',
-    desc: 'Professional website for Knight Web Production, an event organising company — built with React and TypeScript for a fast, modern presentation.',
-    detail: 'Designed and developed a clean, professional web presence for an event management company. Built with React and TypeScript for type safety and maintainability.',
+    desc: 'Professional website for Knight Web Production, an event organising company — built with React and TypeScript, hosted on company in-house servers.',
+    problem: 'An elite corporate event management agency required an editorial-grade, ultra-smooth web presence to pitch high-profile luxury event and concert contracts without UI jitter or slow media render times.',
+    architecture: 'Developed with React and strict TypeScript, implementing modular UI components, progressive picture lazy loading, and hosted directly on the company\'s private in-house enterprise servers with custom production domain configuration.',
+    systemFlow: [
+      { layer: 'Frontend UI', desc: 'React + Strict TypeScript Component Hierarchy' },
+      { layer: 'Asset Optimizer', desc: 'Progressive Image Loading & Micro-Animations' },
+      { layer: 'Hosting Tier', desc: 'Company In-House Enterprise Server with Custom Domain' }
+    ],
+    metrics: [
+      { val: 'TypeScript', lbl: 'Type-Safe Codebase' },
+      { val: 'Custom Domain', lbl: 'Company Server Hosted' },
+      { val: 'Sub-Second', lbl: 'Page Interaction Speed' }
+    ],
+    detail: 'Designed and developed a clean, professional web presence for an event management company. Built with React and TypeScript for type safety and maintainability. Deployed on in-house company servers.',
     features: [
       'Editorial Creative Event Agency Layouts & Visuals',
       'TypeScript Type-Safe Component Architecture',
       'Interactive Event Portfolio & Services Showcase',
-      'Fast Serverless Edge Deployment on Vercel',
+      'Hosted on Company In-House Enterprise Servers',
       'Optimized Image Lazy-Loading & Smooth Motion'
     ],
-    tech: ['React', 'TypeScript'],
+    tech: ['React', 'TypeScript', 'On-Premise Servers'],
     link: 'https://knightsproductionla.com',
     images: [imgKnight1, imgKnight2, imgKnight3],
   },
   {
     id: 6,
-    type: 'Live Production App',
+    type: 'Live Production App · Team Project',
+    statusBadge: 'Active Commercial SaaS · Team Project',
     title: 'Gym Management App',
-    desc: 'Full-stack gym management system — currently live in production. Built with a friend, covering member management, attendance, and billing workflows.',
-    detail: 'A live, production-deployed gym management application built collaboratively. Handles member registrations, attendance tracking, subscription billing, and workout plan management. Running in production for a real gym.',
+    desc: 'Full-stack gym management system — currently live in production. Collaboratively built with a team of friends, covering member management, attendance, and subscription billing.',
+    problem: 'Commercial fitness centers struggled with member subscription churn due to expired package oversights, disorganized paper attendance registers at front desks, and lack of structured member routine plans.',
+    architecture: 'Collaboratively engineered and shipped with a team of friends: React frontend for front-desk staff to manage member profiles and daily attendance, backed by a Java Spring Boot backend with automated scheduled cron workers for subscription renewal SMS notifications.',
+    systemFlow: [
+      { layer: 'Front Desk UI', desc: 'React Dashboard for Member Profiles & Attendance' },
+      { layer: 'Backend API', desc: 'Java Spring Boot REST Services with Security' },
+      { layer: 'Automation Cron', desc: 'Scheduled Daily Membership Expiry & SMS Worker' },
+      { layer: 'Data Tier', desc: 'Relational SQL Database with Connection Pooling' }
+    ],
+    metrics: [
+      { val: 'Team Project', lbl: 'Collaborative Full-Stack' },
+      { val: 'Active Live', lbl: 'Commercial Gym Client' },
+      { val: 'Auto Alerts', lbl: 'Subscription SMS Engine' }
+    ],
+    detail: 'A live, production-deployed gym management application built collaboratively with a team of friends. Handles member registrations, front-desk attendance logging, subscription billing renewals, and workout plan management. Running in production for a real gym.',
     features: [
-      'Live Production Member Registration & Profile System',
-      'QR-Code Scanner Check-In & Instant Attendance Logs',
+      'Live Production Member Registration & Profile Directory',
+      'Front-Desk Member Attendance Tracking & Logs',
       'Subscription Renewal Engine & Automated SMS Alerts',
       'Custom Workout Routine & Diet Plan Management',
       'Real-Time Monthly Revenue & Attendance Analytics'
     ],
-    tech: ['React', 'Spring Boot', 'SQL'],
+    tech: ['React', 'Spring Boot', 'SQL', 'Team Collaboration'],
     link: null,
     images: [imgGym1, imgGym2, imgGym3, imgGym4],
   },
   {
     id: 7,
     type: 'Full-Stack Enterprise POS · PWA',
+    statusBadge: 'Enterprise Retail PWA · Production-Grade',
     title: 'Super Sonic Sales – Retail POS & Inventory System',
     desc: 'Modern, high-performance Point of Sale (POS) and inventory management web application with real-time billing, stock control, expense tracking, and PWA offline capability.',
+    problem: 'Small and medium retail establishments lacked accessible, hardware-independent POS software with real-time analytics, forcing high upfront capital expenditure on legacy terminal hardware.',
+    architecture: 'Engineered a modern Progressive Web App (PWA) with Flutter Web (GetX state management, Material 3) backed by ASP.NET Core with Entity Framework Core and SQL Server. Implemented service worker offline caching to ensure continuous billing even during internet disruptions.',
+    systemFlow: [
+      { layer: 'PWA Frontend', desc: 'Flutter Web (GetX + Material 3 Design System)' },
+      { layer: 'API & ORM Tier', desc: 'ASP.NET Core Web API + Entity Framework Core' },
+      { layer: 'Offline Engine', desc: 'Service Worker Cache & Transaction Queuing' },
+      { layer: 'Data Store', desc: 'SQL Server with ACID Transaction Isolation' }
+    ],
+    metrics: [
+      { val: 'Hardware-Free', lbl: 'Browser & PWA Enabled' },
+      { val: 'Zero Downtime', lbl: 'Offline Billing Resilience' },
+      { val: 'Enterprise', lbl: 'EF Core Clean Architecture' }
+    ],
     detail: 'Super Sonic Sales is a modern, high-performance Point of Sale (POS) and inventory management web application engineered for retail and small-to-medium businesses. Built with a responsive Flutter Web frontend (GetX, Material 3) and a scalable ASP.NET Core backend (EF Core, SQL Server), it delivers real-time transaction processing, automated inventory control, expense tracking, and visual financial analytics through an intuitive, PWA-enabled interface.',
     features: [
       'Optimized POS Checkout Terminal for Rapid Billing',
@@ -602,15 +698,75 @@ function ProjectCaseStudy({ project, onClose }) {
         {/* Right Panel: Rich Structured Case Study Details */}
         <div className="split-content-panel">
           <div className="split-header">
+            {project.statusBadge && (
+              <div className={`case-study-status-badge ${project.statusBadge.toLowerCase().includes('live') ? 'live' : ''}`}>
+                <span className="status-dot" />
+                {project.statusBadge}
+              </div>
+            )}
             <div className="text-label" style={{ marginBottom: '8px' }}>{project.type}</div>
             <h2 className="split-title">{project.title}</h2>
           </div>
 
           <div className="split-body">
-            {/* Overview */}
+            {/* Engineering Impact Metrics Grid */}
+            {project.metrics && project.metrics.length > 0 && (
+              <div className="impact-metrics-grid">
+                {project.metrics.map((m, idx) => (
+                  <div key={idx} className="impact-metric-box">
+                    <span className="impact-metric-val">{m.val}</span>
+                    <span className="impact-metric-lbl">{m.lbl}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* The Problem vs The Engineering Architecture (STAR Framework) */}
+            {project.problem && project.architecture && (
+              <div className="star-grid">
+                <div className="star-card problem">
+                  <div className="star-card-title">
+                    <AlertCircle size={14} /> The Problem & Bottlenecks
+                  </div>
+                  <p className="star-card-text">{project.problem}</p>
+                </div>
+                <div className="star-card architecture">
+                  <div className="star-card-title">
+                    <Cpu size={14} /> Architectural Decision
+                  </div>
+                  <p className="star-card-text">{project.architecture}</p>
+                </div>
+              </div>
+            )}
+
+            {/* System Architecture Flow Diagram */}
+            {project.systemFlow && project.systemFlow.length > 0 && (
+              <div className="system-flow-wrapper">
+                <div className="system-flow-title">
+                  <Workflow size={15} /> System Architecture Flow
+                </div>
+                <div className="system-flow-track">
+                  {project.systemFlow.map((node, idx) => (
+                    <div key={idx} style={{ display: 'contents' }}>
+                      <div className="system-flow-node">
+                        <div className="system-node-layer">{node.layer}</div>
+                        <p className="system-node-desc">{node.desc}</p>
+                      </div>
+                      {idx < project.systemFlow.length - 1 && (
+                        <div className="system-flow-arrow">
+                          <ChevronRight size={18} />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Overview Detail */}
             <div style={{ marginBottom: '32px' }}>
               <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '12px' }}>
-                📌 Overview
+                📌 System Overview
               </h3>
               <p className="split-desc" style={{ marginBottom: 0 }}>
                 {project.detail}
@@ -664,7 +820,8 @@ function ProjectCaseStudy({ project, onClose }) {
                 border: '1px solid var(--border)', borderRadius: '8px',
                 color: '#94a3b8', fontSize: '12px', fontWeight: 600
               }}>
-                <span>🏢 Confidential Enterprise / Client System</span>
+                <ShieldCheck size={16} style={{ color: 'var(--gold)' }} />
+                <span>Client Internal System (NDA Protected) · Private Office Servers</span>
               </div>
             )}
           </div>

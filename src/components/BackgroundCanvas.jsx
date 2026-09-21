@@ -22,13 +22,16 @@ export default function BackgroundCanvas() {
       canvas.height = window.innerHeight;
     };
     resize();
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', e => {
+    const onMouseMove = (e) => {
       mouse.current = { x: e.clientX, y: e.clientY };
-    });
-    window.addEventListener('mouseleave', () => {
+    };
+    const onMouseLeave = () => {
       mouse.current = { x: -1000, y: -1000 };
-    });
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseleave', onMouseLeave);
 
     // Init particles
     particles.current = Array.from({ length: PARTICLE_COUNT }, () => ({
@@ -126,6 +129,8 @@ export default function BackgroundCanvas() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseleave', onMouseLeave);
     };
   }, []);
 
