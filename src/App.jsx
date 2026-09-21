@@ -6,6 +6,8 @@ import Preloader from './components/Preloader';
 import TextScramble from './components/TextScramble';
 import MagneticButton from './components/MagneticButton';
 import WireframeGlobe from './components/WireframeGlobe';
+import DeveloperTerminal from './components/DeveloperTerminal';
+import SystemFlowSimulator from './components/SystemFlowSimulator';
 
 // Supermarket ERP Images
 import imgSupermarketAdmin from './assest/supermarkert/admin-dashboard.png';
@@ -602,6 +604,7 @@ function LightboxModal({ images, activeIndex, onClose, onNavigate }) {
 function ProjectCaseStudy({ project, onClose }) {
   const [activeMediaIdx, setActiveMediaIdx] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState(project.initialTab || 'overview');
 
   useEffect(() => {
     const onKey = (e) => {
@@ -708,97 +711,137 @@ function ProjectCaseStudy({ project, onClose }) {
             <h2 className="split-title">{project.title}</h2>
           </div>
 
-          <div className="split-body">
-            {/* Engineering Impact Metrics Grid */}
-            {project.metrics && project.metrics.length > 0 && (
-              <div className="impact-metrics-grid">
-                {project.metrics.map((m, idx) => (
-                  <div key={idx} className="impact-metric-box">
-                    <span className="impact-metric-val">{m.val}</span>
-                    <span className="impact-metric-lbl">{m.lbl}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* The Problem vs The Engineering Architecture (STAR Framework) */}
-            {project.problem && project.architecture && (
-              <div className="star-grid">
-                <div className="star-card problem">
-                  <div className="star-card-title">
-                    <AlertCircle size={14} /> The Problem & Bottlenecks
-                  </div>
-                  <p className="star-card-text">{project.problem}</p>
-                </div>
-                <div className="star-card architecture">
-                  <div className="star-card-title">
-                    <Cpu size={14} /> Architectural Decision
-                  </div>
-                  <p className="star-card-text">{project.architecture}</p>
-                </div>
-              </div>
-            )}
-
-            {/* System Architecture Flow Diagram */}
+          {/* Linear / Stripe Style Tab Switcher */}
+          <div className="case-study-tabs">
+            <button
+              className={`case-study-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+              onClick={() => setActiveTab('overview')}
+            >
+              <span>📌 Story & Overview</span>
+            </button>
+            
             {project.systemFlow && project.systemFlow.length > 0 && (
-              <div className="system-flow-wrapper">
-                <div className="system-flow-title">
-                  <Workflow size={15} /> System Architecture Flow
-                </div>
-                <div className="system-flow-track">
-                  {project.systemFlow.map((node, idx) => (
-                    <div key={idx} style={{ display: 'contents' }}>
-                      <div className="system-flow-node">
-                        <div className="system-node-layer">{node.layer}</div>
-                        <p className="system-node-desc">{node.desc}</p>
-                      </div>
-                      {idx < project.systemFlow.length - 1 && (
-                        <div className="system-flow-arrow">
-                          <ChevronRight size={18} />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <button
+                className={`case-study-tab-btn ${activeTab === 'architecture' ? 'active' : ''}`}
+                onClick={() => setActiveTab('architecture')}
+              >
+                <span className="tab-pulse-dot" />
+                <span>⚡ Architecture Flow</span>
+              </button>
             )}
 
-            {/* Overview Detail */}
-            <div style={{ marginBottom: '32px' }}>
-              <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '12px' }}>
-                📌 System Overview
-              </h3>
-              <p className="split-desc" style={{ marginBottom: 0 }}>
-                {project.detail}
-              </p>
-            </div>
-
-            {/* Key Features & System Highlights */}
             {project.features && project.features.length > 0 && (
-              <div style={{ marginBottom: '36px' }}>
-                <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Sparkles size={14} /> Key Features & Capabilities
-                </h3>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {project.features.map((feat, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '13.5px', color: 'var(--text-hi)', lineHeight: 1.6 }}>
-                      <CheckCircle2 size={16} style={{ color: 'var(--gold)', flexShrink: 0, marginTop: '2px' }} />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <button
+                className={`case-study-tab-btn ${activeTab === 'features' ? 'active' : ''}`}
+                onClick={() => setActiveTab('features')}
+              >
+                <span>✨ Key Features</span>
+              </button>
+            )}
+          </div>
+
+          <div className="split-body">
+            {activeTab === 'overview' && (
+              <>
+                {/* Engineering Impact Metrics Grid */}
+                {project.metrics && project.metrics.length > 0 && (
+                  <div className="impact-metrics-grid">
+                    {project.metrics.map((m, idx) => (
+                      <div key={idx} className="impact-metric-box">
+                        <span className="impact-metric-val">{m.val}</span>
+                        <span className="impact-metric-lbl">{m.lbl}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* The Problem vs The Engineering Architecture (STAR Framework) */}
+                {project.problem && project.architecture && (
+                  <div className="star-grid">
+                    <div className="star-card problem">
+                      <div className="star-card-title">
+                        <AlertCircle size={14} /> The Problem & Bottlenecks
+                      </div>
+                      <p className="star-card-text">{project.problem}</p>
+                    </div>
+                    <div className="star-card architecture">
+                      <div className="star-card-title">
+                        <Cpu size={14} /> Architectural Decision
+                      </div>
+                      <p className="star-card-text">{project.architecture}</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Overview Detail */}
+                <div style={{ marginBottom: '24px' }}>
+                  <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '12px' }}>
+                    📌 System Overview
+                  </h3>
+                  <p className="split-desc" style={{ marginBottom: 0 }}>
+                    {project.detail}
+                  </p>
+                </div>
+
+                {/* Jump to Architecture banner */}
+                {project.systemFlow && project.systemFlow.length > 0 && (
+                  <div className="tab-jump-banner" onClick={() => setActiveTab('architecture')}>
+                    <span>⚡ Want to simulate the live request flow?</span>
+                    <strong>Open Architecture Simulator ➔</strong>
+                  </div>
+                )}
+              </>
             )}
 
-            {/* Tech Stack Pills */}
-            <div style={{ marginBottom: '24px' }}>
-              <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '14px' }}>
-                🛠️ Tech Stack & Architecture
-              </h3>
-              <div className="split-tech-stack">
-                {project.tech.map(t => <span key={t} className="badge badge-split">{t}</span>)}
-              </div>
-            </div>
+            {activeTab === 'architecture' && (
+              <>
+                {/* Interactive System Architecture Flow Simulator */}
+                {project.systemFlow && project.systemFlow.length > 0 && (
+                  <SystemFlowSimulator systemFlow={project.systemFlow} projectTitle={project.title} />
+                )}
+
+                {/* Tech Stack Pills */}
+                <div style={{ marginTop: '24px', marginBottom: '24px' }}>
+                  <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '14px' }}>
+                    🛠️ Tech Stack & Architecture
+                  </h3>
+                  <div className="split-tech-stack">
+                    {project.tech.map(t => <span key={t} className="badge badge-split">{t}</span>)}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {activeTab === 'features' && (
+              <>
+                {/* Key Features & System Highlights */}
+                {project.features && project.features.length > 0 && (
+                  <div style={{ marginBottom: '28px' }}>
+                    <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Sparkles size={14} /> Key Features & Capabilities
+                    </h3>
+                    <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {project.features.map((feat, i) => (
+                        <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '13.5px', color: 'var(--text-hi)', lineHeight: 1.6 }}>
+                          <CheckCircle2 size={16} style={{ color: 'var(--gold)', flexShrink: 0, marginTop: '2px' }} />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Tech Stack Pills */}
+                <div style={{ marginBottom: '24px' }}>
+                  <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '14px' }}>
+                    🛠️ Technologies Used
+                  </h3>
+                  <div className="split-tech-stack">
+                    {project.tech.map(t => <span key={t} className="badge badge-split">{t}</span>)}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           
           {/* Action Footer */}
@@ -991,6 +1034,7 @@ export default function App() {
 
       <BackgroundCanvas />
       <CustomCursor />
+      <DeveloperTerminal />
       
       {/* Project Hover Mesh */}
       <div id="project-mesh" className={`project-hover-mesh ${hoverProject ? 'active' : ''}`} />
@@ -1414,41 +1458,62 @@ export default function App() {
                       )}
 
                       <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '6px' }}>
-                          <span className="text-label">{p.type}</span>
-                          {p.link ? (
-                            <a
-                              href={p.link}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              style={{
-                                display: 'inline-flex', alignItems: 'center', gap: '4px',
-                                fontSize: '11px', fontWeight: 700, color: 'var(--gold-light)',
-                                background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
-                                padding: '3px 10px', borderRadius: '999px', textDecoration: 'none',
-                                transition: 'all 0.2s ease'
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.background = 'var(--gold)';
-                                e.currentTarget.style.color = '#000';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.background = 'var(--gold-dim)';
-                                e.currentTarget.style.color = 'var(--gold-light)';
-                              }}
-                            >
-                              Live Demo <ArrowUpRight size={12} />
-                            </a>
-                          ) : (
-                            <span style={{
-                              fontSize: '10px', fontWeight: 600, color: '#94a3b8',
-                              background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)',
-                              padding: '2px 8px', borderRadius: '999px'
-                            }}>
-                              🏢 Client System
-                            </span>
-                          )}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                            <span className="text-label">{p.type}</span>
+                            {p.statusBadge && (
+                              <span className={`card-status-badge ${p.statusBadge.toLowerCase().includes('live') ? 'live' : ''}`}>
+                                <span className="status-dot" />
+                                {p.statusBadge}
+                              </span>
+                            )}
+                          </div>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={(e) => e.stopPropagation()}>
+                            {p.systemFlow && p.systemFlow.length > 0 && (
+                              <button
+                                onClick={() => setSelectedProject({ ...p, initialTab: 'architecture' })}
+                                className="card-flow-action-btn"
+                                title="Open Live System Architecture Simulator"
+                              >
+                                <span className="tab-pulse-dot" />
+                                <span>⚡ Architecture Flow</span>
+                              </button>
+                            )}
+
+                            {p.link ? (
+                              <a
+                                href={p.link}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{
+                                  display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                  fontSize: '11px', fontWeight: 700, color: 'var(--gold-light)',
+                                  background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
+                                  padding: '4px 10px', borderRadius: '999px', textDecoration: 'none',
+                                  transition: 'all 0.2s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.background = 'var(--gold)';
+                                  e.currentTarget.style.color = '#000';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.background = 'var(--gold-dim)';
+                                  e.currentTarget.style.color = 'var(--gold-light)';
+                                }}
+                              >
+                                Live Demo <ArrowUpRight size={12} />
+                              </a>
+                            ) : (
+                              <span style={{
+                                fontSize: '10px', fontWeight: 600, color: '#94a3b8',
+                                background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)',
+                                padding: '3px 8px', borderRadius: '999px'
+                              }}>
+                                🏢 Enterprise Server
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         <h3 style={{
@@ -1460,13 +1525,19 @@ export default function App() {
                         <p style={{ fontSize: '13px', lineHeight: 1.75, color: 'var(--text-md)', marginBottom: '14px' }}>
                           {p.desc}
                         </p>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                          {p.tech.map(t => <span key={t} className="badge">{t}</span>)}
+
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                            {p.tech.map(t => <span key={t} className="badge">{t}</span>)}
+                          </div>
+                          <span className="card-explore-hint">
+                            Case Study & System Specs <ArrowRight size={13} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '3px' }} />
+                          </span>
                         </div>
                       </div>
 
-                      <div style={{ color: '#94a3b8', flexShrink: 0, alignSelf: 'flex-start', paddingTop: '10px' }} title="Click to view details">
-                        <ArrowRight size={15} style={{ transition: 'transform 0.2s ease, color 0.2s ease' }} />
+                      <div style={{ color: '#94a3b8', flexShrink: 0, alignSelf: 'center' }} title="Click to view details">
+                        <ArrowRight size={16} className="card-end-arrow" />
                       </div>
                     </div>
                   {i < PROJECTS.length - 1 && (
