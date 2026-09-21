@@ -701,43 +701,58 @@ function ProjectCaseStudy({ project, onClose }) {
         {/* Right Panel: Rich Structured Case Study Details */}
         <div className="split-content-panel">
           <div className="split-header">
-            {project.statusBadge && (
-              <div className={`case-study-status-badge ${project.statusBadge.toLowerCase().includes('live') ? 'live' : ''}`}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+              <div className={`case-study-status-badge ${project.statusBadge?.toLowerCase().includes('live') ? 'live' : ''}`}>
                 <span className="status-dot" />
-                {project.statusBadge}
+                {project.statusBadge || project.type}
               </div>
-            )}
-            <div className="text-label" style={{ marginBottom: '8px' }}>{project.type}</div>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '4px',
+                    fontSize: '11px', fontWeight: 700, color: 'var(--gold-light)',
+                    background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
+                    padding: '3px 10px', borderRadius: '999px', textDecoration: 'none'
+                  }}
+                >
+                  Live Demo <ArrowUpRight size={12} />
+                </a>
+              )}
+            </div>
+
             <h2 className="split-title">{project.title}</h2>
-          </div>
 
-          {/* Linear / Stripe Style Tab Switcher */}
-          <div className="case-study-tabs">
-            <button
-              className={`case-study-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
-              onClick={() => setActiveTab('overview')}
-            >
-              <span>📌 Story & Overview</span>
-            </button>
-            
-            {project.systemFlow && project.systemFlow.length > 0 && (
+            {/* Linear / Stripe Style Tab Switcher */}
+            <div className="case-study-tabs">
               <button
-                className={`case-study-tab-btn ${activeTab === 'architecture' ? 'active' : ''}`}
-                onClick={() => setActiveTab('architecture')}
+                className={`case-study-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+                onClick={() => setActiveTab('overview')}
               >
-                <span className="tab-pulse-dot" />
-                <span>⚡ Architecture Flow</span>
+                <span>📌 Story & Overview</span>
               </button>
-            )}
+              
+              {project.systemFlow && project.systemFlow.length > 0 && (
+                <button
+                  className={`case-study-tab-btn ${activeTab === 'architecture' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('architecture')}
+                >
+                  <span className="tab-pulse-dot" />
+                  <span>⚡ Architecture Flow</span>
+                </button>
+              )}
 
-            {project.features && project.features.length > 0 && (
-              <button
-                className={`case-study-tab-btn ${activeTab === 'features' ? 'active' : ''}`}
-                onClick={() => setActiveTab('features')}
-              >
-                <span>✨ Key Features</span>
-              </button>
-            )}
+              {project.features && project.features.length > 0 && (
+                <button
+                  className={`case-study-tab-btn ${activeTab === 'features' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('features')}
+                >
+                  <span>✨ Key Features</span>
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="split-body">
@@ -844,9 +859,9 @@ function ProjectCaseStudy({ project, onClose }) {
             )}
           </div>
           
-          {/* Action Footer */}
-          <div className="split-footer" style={{ gap: '12px', flexWrap: 'wrap' }}>
-            {project.link ? (
+          {/* Action Footer (Only when live site link exists) */}
+          {project.link && (
+            <div className="split-footer">
               <MagneticButton
                 as="a"
                 href={project.link}
@@ -856,18 +871,8 @@ function ProjectCaseStudy({ project, onClose }) {
               >
                 VISIT LIVE SITE <ArrowUpRight size={16} />
               </MagneticButton>
-            ) : (
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                padding: '12px 20px', background: 'rgba(255,255,255,0.04)',
-                border: '1px solid var(--border)', borderRadius: '8px',
-                color: '#94a3b8', fontSize: '12px', fontWeight: 600
-              }}>
-                <ShieldCheck size={16} style={{ color: 'var(--gold)' }} />
-                <span>Client Internal System (NDA Protected) · Private Office Servers</span>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Workflow, Play, RotateCcw, ChevronRight, CheckCircle2, Zap, Shield, Database, Server, Cpu, Globe } from 'lucide-react';
+import { Workflow, Play, RotateCcw, ChevronRight, CheckCircle2, Zap, Shield, Database, Cpu, Globe } from 'lucide-react';
 
 const STEP_DESCRIPTIONS = [
   'Client UI dispatching secure HTTPS request payload...',
@@ -8,25 +8,32 @@ const STEP_DESCRIPTIONS = [
   'Database executing ACID transaction & query indexing...',
 ];
 
-export default function SystemFlowSimulator({ systemFlow, projectTitle }) {
+export default function SystemFlowSimulator({ systemFlow, projectTitle, autoStart = true }) {
   const [activeStep, setActiveStep] = useState(-1);
   const [isSimulating, setIsSimulating] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [latency, setLatency] = useState(16);
   const timerRef = useRef(null);
+  const trackRef = useRef(null);
+  const nodeRefs = useRef([]);
 
+  // Auto-scroll track to keep the active node centered smoothly
   useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
+    if (activeStep >= 0 && nodeRefs.current[activeStep]) {
+      nodeRefs.current[activeStep].scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest'
+      });
+    }
+  }, [activeStep]);
 
   const runSimulation = () => {
     if (isSimulating) return;
     setIsSimulating(true);
     setIsCompleted(false);
     setActiveStep(0);
-    setLatency(Math.floor(Math.random() * 12) + 14); // 14ms - 26ms
+    setLatency(Math.floor(Math.random() * 10) + 14); // 14ms - 24ms
 
     let current = 0;
     const totalNodes = systemFlow.length;
@@ -35,26 +42,39 @@ export default function SystemFlowSimulator({ systemFlow, projectTitle }) {
       if (current < totalNodes - 1) {
         current += 1;
         setActiveStep(current);
-        timerRef.current = setTimeout(advanceStep, 550);
+        timerRef.current = setTimeout(advanceStep, 700);
       } else {
-        // Reverse packet back to client (response flow)
+        // Roundtrip response flow completed
         timerRef.current = setTimeout(() => {
           setIsSimulating(false);
           setIsCompleted(true);
           setActiveStep(-1);
-        }, 500);
+          // Gently scroll back to show full flow summary
+          if (trackRef.current) {
+            trackRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+          }
+        }, 650);
       }
     };
 
-    timerRef.current = setTimeout(advanceStep, 550);
+    timerRef.current = setTimeout(advanceStep, 700);
   };
 
-  const resetSimulation = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    setIsSimulating(false);
-    setIsCompleted(false);
-    setActiveStep(-1);
-  };
+  // Optional auto-play on first load after a brief initial pause
+  useEffect(() => {
+    if (autoStart) {
+      const autoTimer = setTimeout(() => {
+        runSimulation();
+      }, 500);
+      return () => clearTimeout(autoTimer);
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const getNodeIcon = (layer = '') => {
     const l = layer.toLowerCase();
@@ -72,62 +92,73 @@ export default function SystemFlowSimulator({ systemFlow, projectTitle }) {
 
   return (
     <div className="system-flow-wrapper simulator-active">
-      {/* Simulator Header & Action Controls */}
-      <div className="system-flow-header">
-        <div className="system-flow-title">
-          <Workflow size={15} style={{ color: 'var(--gold)' }} />
-          <span>System Architecture Flow</span>
+      {/* Prominent High-Visibility Hero Action Bar */}
+      <div className="flow-hero-action-bar">
+        <div className="flow-hero-info">
+          <div className="flow-hero-badge">
+            <span className="live-beacon-dot" />
+            <span>REAL-TIME PACKET TRACER</span>
+          </div>
+          <p className="flow-hero-subtitle">
+            Simulate live client requests traversing through security, logic engines, and databases.
+          </p>
         </div>
 
-        <div className="simulator-controls">
-          {isCompleted ? (
-            <div className="simulation-success-badge" onClick={runSimulation} title="Click to re-run tracer">
-              <span className="success-pulse-dot" />
-              <CheckCircle2 size={13} />
-              <span>200 OK · {latency}ms</span>
-              <RotateCcw size={11} className="rerun-icon" />
-            </div>
+        <button
+          onClick={runSimulation}
+          disabled={isSimulating}
+          className={`simulate-hero-btn ${isSimulating ? 'simulating' : ''} ${isCompleted ? 'completed' : ''}`}
+          title="Click to simulate live system architecture packet flow"
+        >
+          {isSimulating ? (
+            <>
+              <span className="simulating-spinner" />
+              <span>Tracing Layer {activeStep + 1} of {systemFlow.length}...</span>
+            </>
+          ) : isCompleted ? (
+            <>
+              <RotateCcw size={14} className="rerun-icon" />
+              <span>Re-Run Flow ({latency}ms)</span>
+            </>
           ) : (
-            <button
-              onClick={runSimulation}
-              disabled={isSimulating}
-              className={`simulate-btn ${isSimulating ? 'simulating' : ''}`}
-            >
-              {isSimulating ? (
-                <>
-                  <span className="simulating-spinner" />
-                  <span>Tracing Packet...</span>
-                </>
-              ) : (
-                <>
-                  <Zap size={12} className="zap-icon" />
-                  <span>Simulate Live Request</span>
-                </>
-              )}
-            </button>
+            <>
+              <Play size={14} fill="currentColor" />
+              <span>CLICK TO SIMULATE FLOW ▶</span>
+            </>
           )}
-        </div>
+        </button>
       </div>
 
-      {/* Interactive Track of Architecture Nodes */}
-      <div className="system-flow-track">
+      {/* Interactive Auto-Scrolling Track of Architecture Nodes */}
+      <div className="system-flow-track hide-scrollbar" ref={trackRef}>
         {systemFlow.map((node, idx) => {
           const isActive = activeStep === idx;
           const isPassed = activeStep > idx || isCompleted;
 
           return (
-            <div key={idx} style={{ display: 'contents' }}>
+            <div
+              key={idx}
+              ref={el => (nodeRefs.current[idx] = el)}
+              style={{ display: 'inline-flex', alignItems: 'center' }}
+            >
               <div
                 className={`system-flow-node ${isActive ? 'active-tracer-node' : ''} ${isPassed ? 'passed-tracer-node' : ''}`}
+                onClick={() => {
+                  setActiveStep(idx);
+                  if (nodeRefs.current[idx]) {
+                    nodeRefs.current[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                  }
+                }}
+                style={{ cursor: 'pointer' }}
+                title={`Click to inspect ${node.layer}`}
               >
                 <div className="system-node-layer">
                   {getNodeIcon(node.layer)}
                   <span>{node.layer}</span>
-                  {isActive && <span className="node-live-tag">PROCESSING</span>}
+                  {isActive && <span className="node-live-tag">ACTIVE</span>}
                   {isPassed && <span className="node-ok-tag">✓</span>}
                 </div>
                 <p className="system-node-desc">{node.desc}</p>
-
                 {isActive && <div className="node-glow-halo" />}
               </div>
 
@@ -151,7 +182,7 @@ export default function SystemFlowSimulator({ systemFlow, projectTitle }) {
         <div className="tracer-console-text">
           {isSimulating && activeStep >= 0 && (
             <span className="console-active-msg">
-              ⚡ [{systemFlow[activeStep]?.layer?.toUpperCase()}] {STEP_DESCRIPTIONS[activeStep] || `Executing ${systemFlow[activeStep]?.desc}...`}
+              ⚡ [{systemFlow[activeStep]?.layer?.toUpperCase()}] {STEP_DESCRIPTIONS[activeStep] || `Processing ${systemFlow[activeStep]?.desc}...`}
             </span>
           )}
           {isCompleted && (
@@ -161,7 +192,7 @@ export default function SystemFlowSimulator({ systemFlow, projectTitle }) {
           )}
           {!isSimulating && !isCompleted && (
             <span className="console-idle-msg">
-              Click &quot;Simulate Live Request&quot; to trace a secure packet through all architecture layers.
+              Press &quot;CLICK TO SIMULATE FLOW&quot; to auto-play request traversal across all nodes.
             </span>
           )}
         </div>
