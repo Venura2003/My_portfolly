@@ -804,8 +804,9 @@ export default function App() {
           {/* Top block */}
           <div>
             {/* Name */}
-            <h1 className="text-hero" style={{ marginBottom: '10px' }}>
-              Venura<br />Wickramasingha
+            <h1 className="text-hero" style={{ marginBottom: '12px' }}>
+              <span className="hero-accent">Venura</span><br />
+              Wickramasingha
             </h1>
 
             {/* Typewriter role — WOW FACTOR 1 */}
@@ -815,59 +816,55 @@ export default function App() {
 
             {/* Short bio */}
             <p style={{
-              fontSize: '13.5px', lineHeight: 1.75, color: 'var(--text-md)',
-              maxWidth: '290px',
+              fontSize: '13.5px', lineHeight: 1.8, color: 'var(--text-md)',
+              maxWidth: '300px',
             }}>
-              I build{' '}
-              <span style={{ color: 'var(--gold)' }}>precise, high-performance</span>{' '}
-              enterprise systems and immersive digital products — obsessing over every detail between concept and production.
+              I architect{' '}
+              <span style={{ color: 'var(--gold)' }}>high-performance, mission-critical</span>{' '}
+              enterprise systems, custom APIs, and digital platforms — bridging the gap between deep system architecture and pixel-perfect design.
             </p>
 
-            {/* Status & CTA */}
-            <div style={{
-              marginTop: '22px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap'
-            }}>
-              {/* Status badge */}
-              <div style={{
-                display: 'inline-flex', alignItems: 'center',
-                gap: '8px', padding: '6px 14px',
-                background: 'rgba(74,222,128,0.06)',
-                border: '1px solid rgba(74,222,128,0.15)',
-                borderRadius: '999px',
-              }}>
-                <span style={{
-                  width: 7, height: 7, borderRadius: '50%',
-                  background: '#4ade80', display: 'inline-block',
-                  animation: 'pulse 2.5s infinite',
-                }} />
-                <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', color: '#4ade80' }}>
-                  OPEN TO OPPORTUNITIES
-                </span>
+            {/* Live Status Pill & Quick CLI Launcher */}
+            <div style={{ marginTop: '22px', display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'flex-start' }}>
+              <div className="hero-status-pill">
+                <span className="hero-status-dot" />
+                <span className="hero-status-text">AVAILABLE FOR SOFTWARE ENGINEERING ROLES</span>
               </div>
 
-              {/* Download CV CTA */}
-              <a 
-                href="/cv.html" 
-                target="_blank"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  padding: '6px 16px', background: 'var(--gold-dim)',
-                  border: '1px solid var(--gold-line)', borderRadius: '999px',
-                  color: 'var(--gold-light)', fontSize: '10px', fontWeight: 700,
-                  letterSpacing: '1.5px', textDecoration: 'none', transition: 'all 0.2s ease',
-                  textTransform: 'uppercase'
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'var(--gold)';
-                  e.currentTarget.style.color = '#000';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'var(--gold-dim)';
-                  e.currentTarget.style.color = 'var(--gold-light)';
-                }}
-              >
-                Download CV
-              </a>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                <button
+                  className="hero-terminal-chip"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
+                  title="Click or press Ctrl + K to open interactive terminal"
+                >
+                  <span className="chip-key">Ctrl</span>
+                  <span className="chip-key">K</span>
+                  <span>Developer CLI</span>
+                </button>
+
+                <a 
+                  href="/cv.html" 
+                  target="_blank"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    padding: '6px 14px', background: 'var(--gold-dim)',
+                    border: '1px solid var(--gold-line)', borderRadius: '8px',
+                    color: 'var(--gold-light)', fontSize: '11px', fontWeight: 700,
+                    letterSpacing: '1px', textDecoration: 'none', transition: 'all 0.2s ease',
+                    textTransform: 'uppercase'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = 'var(--gold)';
+                    e.currentTarget.style.color = '#000';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'var(--gold-dim)';
+                    e.currentTarget.style.color = 'var(--gold-light)';
+                  }}
+                >
+                  Download CV ➔
+                </a>
+              </div>
             </div>
 
             {/* Navigation */}
@@ -965,16 +962,25 @@ export default function App() {
 
               {/* Skills Matrix */}
               <div className="bento-card skills-card" style={{ gridColumn: '1 / -1' }}>
-                <h3 className="bento-title" style={{ marginBottom: '20px' }}>Tech Stack</h3>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
+                  <h3 className="bento-title" style={{ margin: 0 }}>Core Technical Matrix</h3>
+                  <span style={{ fontSize: '11px', color: 'var(--gold)', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 700 }}>
+                    Enterprise & Client Tested
+                  </span>
+                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px' }}>
-                  {SKILLS.map(s => (
-                    <div key={s.cat}>
-                      <div className="text-label" style={{ marginBottom: '10px' }}>{s.cat}</div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                        {s.items.map(item => <span key={item} className="badge">{item}</span>)}
+                  {SKILLS.map(s => {
+                    const catKey = s.cat.toLowerCase();
+                    const badgeClass = catKey.includes('front') ? 'badge-cat-frontend' : catKey.includes('back') ? 'badge-cat-backend' : catKey.includes('mobile') ? 'badge-cat-mobile' : 'badge-cat-database';
+                    return (
+                      <div key={s.cat}>
+                        <div className="text-label" style={{ marginBottom: '10px' }}>{s.cat}</div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {s.items.map(item => <span key={item} className={`badge ${badgeClass}`}>{item}</span>)}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -1001,10 +1007,61 @@ export default function App() {
               ))}
             </div>
 
+            {/* ── ENGINEERING METHODOLOGY / THE LIFECYCLE ── */}
+            <div className="reveal reveal-d3" style={{ marginTop: '36px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
+                <h3 style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', margin: 0 }}>
+                  ⚡ Engineering Lifecycle & Methodology
+                </h3>
+                <span style={{ fontSize: '11px', color: '#64748b', fontFamily: 'monospace', fontWeight: 600 }}>
+                  [ ARCHITECTURE ➔ HARDENING ]
+                </span>
+              </div>
+
+              <div className="process-grid">
+                {[
+                  {
+                    num: '01',
+                    title: 'System Architecture',
+                    subtitle: 'Feasibility & Flow',
+                    desc: 'Deconstructing real-world business bottlenecks. Mapping multi-tier request flows, choosing On-Premise vs Cloud architectures, and planning high-throughput transactional pipelines.'
+                  },
+                  {
+                    num: '02',
+                    title: 'Schema & API Design',
+                    subtitle: 'Transactional Core',
+                    desc: 'Designing relational schemas with strict ACID isolation in MySQL/SQL Server. Engineering robust, type-safe REST APIs in ASP.NET Core & Spring Boot with JWT authentication.'
+                  },
+                  {
+                    num: '03',
+                    title: 'Client Performance',
+                    subtitle: 'Web, Flutter & PWA',
+                    desc: 'Crafting responsive, zero-latency client interfaces. Implementing offline caching, state management, and maintaining 100/100 Lighthouse scores on SEO & Accessibility.'
+                  },
+                  {
+                    num: '04',
+                    title: 'Production Hardening',
+                    subtitle: 'Deployment & Telemetry',
+                    desc: 'Deploying onto private enterprise office servers with automated scheduled jobs, real-time telemetry, and multi-user transactional stability.'
+                  }
+                ].map((step, idx) => (
+                  <div key={idx} className="process-card">
+                    <div className="process-num-row">
+                      <span className="process-num">/{step.num}</span>
+                      <span className="process-badge">{step.subtitle}</span>
+                    </div>
+                    <h4 className="process-title">{step.title}</h4>
+                    <p className="process-desc">{step.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* STAT COUNTERS — WOW FACTOR 3 */}
             <div
               ref={statsRef}
               className="stats-grid reveal reveal-d3"
+              style={{ marginTop: '36px' }}
             >
               {STATS.map((s, i) => (
                 <StatCard key={i} {...s} start={statsVisible} />

@@ -48,7 +48,7 @@ export default function DeveloperTerminal() {
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Global Keyboard Shortcut: Ctrl + K or Cmd + K
+  // Global Keyboard Shortcut: Ctrl + K or Cmd + K & Custom Event
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -58,8 +58,14 @@ export default function DeveloperTerminal() {
         setIsOpen(false);
       }
     };
+    const handleOpen = () => setIsOpen(true);
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('open-terminal', handleOpen);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('open-terminal', handleOpen);
+    };
   }, [isOpen]);
 
   // Auto scroll to bottom
