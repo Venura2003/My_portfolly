@@ -576,6 +576,24 @@ function SectionLabel({ children }) {
   );
 }
 
+function SectionHeader({ num, title, subtitle }) {
+  return (
+    <div className="section-header-bar reveal">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+        <span className="section-num-tag">{num}</span>
+        <h2 className="text-section-head" style={{ margin: 0 }}>
+          <TextScramble text={title} speed={36} delay={80} />
+        </h2>
+      </div>
+      {subtitle && (
+        <span style={{ fontSize: '11px', color: '#64748b', fontFamily: 'monospace', fontWeight: 600 }}>
+          {subtitle}
+        </span>
+      )}
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════
    MAIN APP
 ═══════════════════════════════════════════════════════════ */
@@ -589,8 +607,17 @@ export default function App() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formSent, setFormSent] = useState(false);
   const [hoverProject, setHoverProject] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const statsRef = useRef(null);
   const appRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 30);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleGlobalMouseMove = (e) => {
     if (!appRef.current) return;
@@ -712,72 +739,94 @@ export default function App() {
       {/* Project Hover Mesh */}
       <div id="project-mesh" className={`project-hover-mesh ${hoverProject ? 'active' : ''}`} />
 
-      {/* Mobile Sticky Header */}
-      <div className="mobile-header">
-        <button 
-          className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`} 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle Menu"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '42px',
-            height: '42px',
-            background: 'rgba(198, 168, 75, 0.08)',
-            border: '1px solid rgba(198, 168, 75, 0.3)',
-            borderRadius: '50%',
-            color: 'var(--gold)',
-            cursor: 'pointer',
-            zIndex: 100001,
-            backdropFilter: 'blur(12px)',
-            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.4)'
-          }}
-        >
-          {isMobileMenuOpen ? (
-            <X size={20} color="#c6a84b" strokeWidth={2} />
-          ) : (
-            <Menu size={20} color="#c6a84b" strokeWidth={2} />
-          )}
-        </button>
-      </div>
-
       {/* Mobile Navigation Overlay */}
       <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
-        <button
-          onClick={() => setIsMobileMenuOpen(false)}
-          style={{
-            position: 'absolute', top: '24px', right: '20px',
-            background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
-            color: 'var(--gold)', borderRadius: '50%', padding: '10px',
-            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            zIndex: 10005
-          }}
-          aria-label="Close menu"
-        >
-          <X size={22} />
-        </button>
+        {/* Overlay Top Bar */}
+        <div style={{
+          position: 'absolute', top: '18px', left: '20px', right: '20px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          zIndex: 10006
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="brand-badge" style={{ width: '32px', height: '32px', fontSize: '13px' }}>VW</div>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff' }}>Venura.dev</span>
+          </div>
 
-        <nav className="mobile-nav-menu">
-          {NAV_SECTIONS.map((id, index) => (
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            style={{
+              background: 'rgba(198, 168, 75, 0.1)', border: '1px solid rgba(198, 168, 75, 0.35)',
+              color: 'var(--gold)', borderRadius: '8px', padding: '8px',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.5)'
+            }}
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Menu Navigation Links */}
+        <nav className="mobile-nav-menu" style={{ marginTop: '20px', marginBottom: '20px' }}>
+          {[
+            { id: 'about', label: 'About & Skills' },
+            { id: 'methodology', label: 'Methodology' },
+            { id: 'projects', label: 'Production Systems' },
+            { id: 'experience', label: 'Experience' },
+            { id: 'contact', label: 'Get In Touch' },
+          ].map((item, index) => (
             <a
-              key={id}
-              href={`#${id}`}
-              className={`mobile-nav-link${activeSection === id ? ' active' : ''}`}
+              key={item.id}
+              href={`#${item.id}`}
+              className={`mobile-nav-link${activeSection === item.id ? ' active' : ''}`}
               onClick={() => setIsMobileMenuOpen(false)}
-              style={{ transitionDelay: `${index * 0.05}s` }}
+              style={{ transitionDelay: `${index * 0.04}s` }}
             >
               <span className="mobile-nav-num">0{index + 1}.</span>
               <span className="mobile-nav-label">
-                {id.charAt(0).toUpperCase() + id.slice(1)}
+                {item.label}
               </span>
             </a>
           ))}
         </nav>
+
+        {/* Drawer Action Buttons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', maxWidth: '320px', marginBottom: '40px' }}>
+          <a
+            href="/cv.html"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setIsMobileMenuOpen(false)}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              padding: '12px 18px', background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
+              color: 'var(--gold-light)', borderRadius: '10px', fontWeight: 700, fontSize: '12px',
+              textDecoration: 'none', letterSpacing: '0.5px'
+            }}
+          >
+            <span>📄 View / Download CV (PDF)</span>
+            <ArrowUpRight size={14} />
+          </a>
+
+          <button
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              window.dispatchEvent(new CustomEvent('open-terminal'));
+            }}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              padding: '11px 18px', background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.1)', color: '#cbd5e1',
+              borderRadius: '10px', fontWeight: 600, fontSize: '12px', cursor: 'pointer'
+            }}
+          >
+            <span>⚡ Launch Developer Terminal</span>
+          </button>
+        </div>
         
+        {/* Drawer Footer Socials */}
         <div className="mobile-nav-footer">
-          <div style={{ display: 'flex', gap: '24px', justifyContent: 'flex-start' }}>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
             {SOCIALS.map(s => (
               <a
                 key={s.label}
@@ -794,140 +843,224 @@ export default function App() {
         </div>
       </div>
 
-      <div className="app-layout">
+      <div className="full-layout">
 
         {/* ══════════════════════════════════════════════
-            LEFT PANEL — sticky
+            TOP FLOATING GLASS NAVBAR
         ══════════════════════════════════════════════ */}
-        <header className="left-panel">
-
-          {/* Top block */}
-          <div>
-            {/* Name */}
-            <h1 className="text-hero" style={{ marginBottom: '12px' }}>
-              <span className="hero-accent">Venura</span><br />
-              Wickramasingha
-            </h1>
-
-            {/* Typewriter role — WOW FACTOR 1 */}
-            <div className="text-role" style={{ marginBottom: '18px', minHeight: '24px' }}>
-              <TypewriterRole />
-            </div>
-
-            {/* Short bio */}
-            <p style={{
-              fontSize: '13.5px', lineHeight: 1.8, color: 'var(--text-md)',
-              maxWidth: '300px',
-            }}>
-              I architect{' '}
-              <span style={{ color: 'var(--gold)' }}>high-performance, mission-critical</span>{' '}
-              enterprise systems, custom APIs, and digital platforms — bridging the gap between deep system architecture and pixel-perfect design.
-            </p>
-
-            {/* Live Status Pill & Quick CLI Launcher */}
-            <div style={{ marginTop: '22px', display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'flex-start' }}>
-              <div className="hero-status-pill">
-                <span className="hero-status-dot" />
-                <span className="hero-status-text">AVAILABLE FOR SOFTWARE ENGINEERING ROLES</span>
+        <header className={`top-glass-nav ${scrolled ? 'scrolled' : ''}`}>
+          <div className="nav-inner">
+            {/* Brand Logo / Monogram */}
+            <a
+              href="#"
+              className="nav-brand"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              <div className="brand-badge">VW</div>
+              <div className="brand-info">
+                <span className="brand-name">Venura Wickramasingha</span>
+                <span className="brand-sub">Full Stack & Mobile Engineer</span>
               </div>
+            </a>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                <button
-                  className="hero-terminal-chip"
-                  onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
-                  title="Click or press Ctrl + K to open interactive terminal"
-                >
-                  <span className="chip-key">Ctrl</span>
-                  <span className="chip-key">K</span>
-                  <span>Developer CLI</span>
-                </button>
-
-                <a 
-                  href="/cv.html" 
-                  target="_blank"
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    padding: '6px 14px', background: 'var(--gold-dim)',
-                    border: '1px solid var(--gold-line)', borderRadius: '8px',
-                    color: 'var(--gold-light)', fontSize: '11px', fontWeight: 700,
-                    letterSpacing: '1px', textDecoration: 'none', transition: 'all 0.2s ease',
-                    textTransform: 'uppercase'
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = 'var(--gold)';
-                    e.currentTarget.style.color = '#000';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = 'var(--gold-dim)';
-                    e.currentTarget.style.color = 'var(--gold-light)';
-                  }}
-                >
-                  Download CV ➔
-                </a>
-              </div>
-            </div>
-
-            {/* Navigation */}
-            <nav style={{ marginTop: '52px' }}>
+            {/* Desktop Navigation Links */}
+            <nav className="nav-links-center">
               {NAV_SECTIONS.map(id => (
                 <a
                   key={id}
                   href={`#${id}`}
-                  className={`nav-link${activeSection === id ? ' active' : ''}`}
+                  className={`nav-pill-link${activeSection === id ? ' active' : ''}`}
                 >
-                  <span className="nav-indicator" />
-                  <span className="nav-label">
-                    {id.charAt(0).toUpperCase() + id.slice(1)}
-                  </span>
+                  {id === 'projects' ? 'Systems' : id.charAt(0).toUpperCase() + id.slice(1)}
                 </a>
               ))}
             </nav>
-          </div>
 
-          {/* Social links */}
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
-            {SOCIALS.map(s => (
+            {/* Nav Actions (Right) */}
+            <div className="nav-actions-right">
+              <button
+                className="hero-terminal-chip desktop-only-action"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
+                title="Click or press Ctrl + K to open developer CLI"
+              >
+                <span className="chip-key">Ctrl</span>
+                <span className="chip-key">K</span>
+                <span>CLI</span>
+              </button>
+
               <a
-                key={s.label}
-                href={s.href}
+                href="/cv.html"
                 target="_blank"
                 rel="noreferrer"
-                title={s.label}
+                className="nav-pill-link nav-cv-btn"
                 style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  padding: '7px 14px', background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid var(--border)', borderRadius: '999px',
-                  color: 'var(--text-hi)', fontSize: '11.5px', fontWeight: 600,
-                  textDecoration: 'none', transition: 'all 0.25s ease'
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'var(--gold-dim)';
-                  e.currentTarget.style.borderColor = 'var(--gold-line)';
-                  e.currentTarget.style.color = 'var(--gold-light)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                  e.currentTarget.style.borderColor = 'var(--border)';
-                  e.currentTarget.style.color = 'var(--text-hi)';
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  background: 'var(--gold-dim)',
+                  border: '1px solid var(--gold-line)',
+                  color: 'var(--gold-light)',
+                  fontWeight: 700,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}
               >
-                {s.icon}
-                <span>{s.label}</span>
+                <span>CV / Resume</span>
+                <ArrowUpRight size={13} />
               </a>
-            ))}
+
+              {/* Mobile Hamburger Toggle Button */}
+              <button
+                className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle Navigation Menu"
+              >
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </header>
 
         {/* ══════════════════════════════════════════════
-            RIGHT PANEL — scrolling content
+            CINEMATIC FULL-WIDTH HERO
         ══════════════════════════════════════════════ */}
-        <main className="right-panel">
+        <section className="hero-full">
+          <div className="hero-spotlight" />
+          
+          <div className="hero-full-content reveal">
+            <div className="hero-status-pill">
+              <span className="hero-status-dot" />
+              <span className="hero-status-text">AVAILABLE FOR SOFTWARE ENGINEERING & FULL-STACK ROLES</span>
+            </div>
 
-          {/* ── ABOUT (BENTO BOX LAYOUT) ─────────────────────────────── */}
-          <section id="about" style={{ marginBottom: '112px', scrollMarginTop: '88px' }}>
-            <SectionLabel>About</SectionLabel>
+            <h1 className="hero-main-title">
+              <span className="hero-title-gradient">
+                Building High-Performance Enterprise Systems & Digital Platforms
+              </span>
+            </h1>
+
+            <div className="hero-subtitle-box">
+              <span>Software Engineering Undergraduate &amp;</span>
+              <TypewriterRole />
+            </div>
+
+            <p className="hero-full-desc">
+              I architect mission-critical enterprise platforms, high-throughput APIs, and zero-latency client apps — bridging deep system architecture (ASP.NET Core, Spring Boot, MySQL/SQL Server) with pixel-perfect modern web and mobile engineering (Flutter, React). 7+ production systems shipped to real-world clients.
+            </p>
+
+            <div className="hero-cta-group">
+              <a href="#projects" className="hero-btn-primary">
+                <span>Explore Production Systems</span>
+                <ArrowRight size={15} />
+              </a>
+
+              <button
+                className="hero-btn-secondary"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
+              >
+                <span className="chip-key">Ctrl</span>
+                <span className="chip-key">K</span>
+                <span>Developer CLI</span>
+              </button>
+
+              <a
+                href="/cv.html"
+                target="_blank"
+                rel="noreferrer"
+                className="hero-btn-secondary"
+              >
+                <span>Download CV</span>
+                <ArrowUpRight size={15} />
+              </a>
+            </div>
+
+            {/* Social Links Row */}
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', marginTop: '32px' }}>
+              {SOCIALS.map(s => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={s.label}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    padding: '7px 16px', background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.08)', borderRadius: '999px',
+                    color: 'var(--text-hi)', fontSize: '11.5px', fontWeight: 600,
+                    textDecoration: 'none', transition: 'all 0.25s ease'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = 'var(--gold-dim)';
+                    e.currentTarget.style.borderColor = 'var(--gold-line)';
+                    e.currentTarget.style.color = 'var(--gold-light)';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                    e.currentTarget.style.color = 'var(--text-hi)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  {s.icon}
+                  <span>{s.label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════════════════════════════════════
+            INFINITE MARQUEE TICKER
+        ══════════════════════════════════════════════ */}
+        <div className="marquee-wrapper">
+          <div className="marquee-track">
+            {[
+              'Flutter & Dart',
+              'ASP.NET Core',
+              'Spring Boot',
+              'React.js',
+              'MySQL & SQL Server',
+              'Supermarket ERP & POS (99.9% Uptime)',
+              'Clean Architecture & ACID',
+              'Leaf Intel AI / IoT Platform',
+              'Supersonic Auto POS',
+              'Knight Production Platform',
+              'Ceylon Innovation Services',
+              'SLIIT Software Engineering',
+              'REST APIs & Microservices',
+              'Flutter & Dart',
+              'ASP.NET Core',
+              'Spring Boot',
+              'React.js',
+              'MySQL & SQL Server',
+              'Supermarket ERP & POS (99.9% Uptime)',
+              'Clean Architecture & ACID',
+              'Leaf Intel AI / IoT Platform',
+              'Supersonic Auto POS',
+              'Knight Production Platform',
+              'Ceylon Innovation Services',
+              'SLIIT Software Engineering',
+              'REST APIs & Microservices',
+            ].map((item, idx) => (
+              <div key={idx} className="marquee-item">
+                <span className="marquee-dot">✦</span>
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ══════════════════════════════════════════════
+            MAIN CONTENT CONTAINER
+        ══════════════════════════════════════════════ */}
+        <main className="full-container">
+
+          {/* ── 01. ABOUT ─────────────────────────────── */}
+          <section id="about" style={{ marginBottom: '120px', scrollMarginTop: '100px' }}>
+            <SectionHeader num="// 01" title="About & Core Matrix" subtitle="[ SLIIT SE · CEYLON INNOVATION SERVICES ]" />
 
             <div className="bento-grid reveal">
               {/* Main Bio Card */}
@@ -1007,57 +1140,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* ── ENGINEERING METHODOLOGY / THE LIFECYCLE ── */}
-            <div className="reveal reveal-d3" style={{ marginTop: '36px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
-                <h3 style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--gold)', margin: 0 }}>
-                  ⚡ Engineering Lifecycle & Methodology
-                </h3>
-                <span style={{ fontSize: '11px', color: '#64748b', fontFamily: 'monospace', fontWeight: 600 }}>
-                  [ ARCHITECTURE ➔ HARDENING ]
-                </span>
-              </div>
-
-              <div className="process-grid">
-                {[
-                  {
-                    num: '01',
-                    title: 'System Architecture',
-                    subtitle: 'Feasibility & Flow',
-                    desc: 'Deconstructing real-world business bottlenecks. Mapping multi-tier request flows, choosing On-Premise vs Cloud architectures, and planning high-throughput transactional pipelines.'
-                  },
-                  {
-                    num: '02',
-                    title: 'Schema & API Design',
-                    subtitle: 'Transactional Core',
-                    desc: 'Designing relational schemas with strict ACID isolation in MySQL/SQL Server. Engineering robust, type-safe REST APIs in ASP.NET Core & Spring Boot with JWT authentication.'
-                  },
-                  {
-                    num: '03',
-                    title: 'Client Performance',
-                    subtitle: 'Web, Flutter & PWA',
-                    desc: 'Crafting responsive, zero-latency client interfaces. Implementing offline caching, state management, and maintaining 100/100 Lighthouse scores on SEO & Accessibility.'
-                  },
-                  {
-                    num: '04',
-                    title: 'Production Hardening',
-                    subtitle: 'Deployment & Telemetry',
-                    desc: 'Deploying onto private enterprise office servers with automated scheduled jobs, real-time telemetry, and multi-user transactional stability.'
-                  }
-                ].map((step, idx) => (
-                  <div key={idx} className="process-card">
-                    <div className="process-num-row">
-                      <span className="process-num">/{step.num}</span>
-                      <span className="process-badge">{step.subtitle}</span>
-                    </div>
-                    <h4 className="process-title">{step.title}</h4>
-                    <p className="process-desc">{step.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* STAT COUNTERS — WOW FACTOR 3 */}
+            {/* STAT COUNTERS */}
             <div
               ref={statsRef}
               className="stats-grid reveal reveal-d3"
@@ -1069,74 +1152,53 @@ export default function App() {
             </div>
           </section>
 
-          {/* ── EXPERIENCE ────────────────────────── */}
-          <section id="experience" style={{ marginBottom: '112px', scrollMarginTop: '88px' }}>
-            <SectionLabel>Experience</SectionLabel>
-            <ol style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-              {EXPERIENCE.map((item, i) => (
-                <li key={i} className={`reveal reveal-d${Math.min(i + 1, 4)}`}>
-                  <div
-                    className="card-hover"
-                    style={{ padding: '22px', margin: '0 -22px', cursor: 'default' }}
-                  >
-                    {/* Company + title */}
-                    <div style={{
-                      display: 'flex', alignItems: 'flex-start',
-                      justifyContent: 'space-between', marginBottom: '10px',
-                      flexWrap: 'wrap', gap: '8px'
-                    }}>
-                      <div>
-                        <h3 style={{
-                          fontSize: '14.5px', fontWeight: 600,
-                          color: 'var(--text-hi)', marginBottom: '3px', letterSpacing: '-0.2px',
-                        }}>
-                          {item.title}
-                        </h3>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                          <span style={{ fontSize: '13px', color: 'var(--gold)', fontWeight: 600 }}>
-                            {item.company}
-                          </span>
-                          {item.period && (
-                            <span style={{
-                              fontSize: '11px', color: 'var(--gold-light)',
-                              background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
-                              padding: '2px 8px', borderRadius: '999px', fontWeight: 500
-                            }}>
-                              {item.period}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <span style={{
-                        fontSize: '11px', color: '#94a3b8',
-                        letterSpacing: '0.5px', flexShrink: 0, paddingTop: '2px', fontWeight: 500
-                      }}>
-                        {item.location}
-                      </span>
-                    </div>
+          {/* ── 02. METHODOLOGY ───────────────────────── */}
+          <section id="methodology" style={{ marginBottom: '120px', scrollMarginTop: '100px' }}>
+            <SectionHeader num="// 02" title="Engineering Lifecycle" subtitle="[ ARCHITECTURE ➔ HARDENING ]" />
 
-                    <p style={{ fontSize: '13px', lineHeight: 1.75, color: 'var(--text-md)', marginBottom: '14px' }}>
-                      {item.desc}
-                    </p>
-
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                      {item.tech.map(t => <span key={t} className="badge">{t}</span>)}
-                    </div>
+            <div className="process-grid reveal">
+              {[
+                {
+                  num: '01',
+                  title: 'System Architecture',
+                  subtitle: 'Feasibility & Flow',
+                  desc: 'Deconstructing real-world business bottlenecks. Mapping multi-tier request flows, choosing On-Premise vs Cloud architectures, and planning high-throughput transactional pipelines.'
+                },
+                {
+                  num: '02',
+                  title: 'Schema & API Design',
+                  subtitle: 'Transactional Core',
+                  desc: 'Designing relational schemas with strict ACID isolation in MySQL/SQL Server. Engineering robust, type-safe REST APIs in ASP.NET Core & Spring Boot with JWT authentication.'
+                },
+                {
+                  num: '03',
+                  title: 'Client Performance',
+                  subtitle: 'Web, Flutter & PWA',
+                  desc: 'Crafting responsive, zero-latency client interfaces. Implementing offline caching, state management, and maintaining 100/100 Lighthouse scores on SEO & Accessibility.'
+                },
+                {
+                  num: '04',
+                  title: 'Production Hardening',
+                  subtitle: 'Deployment & Telemetry',
+                  desc: 'Deploying onto private enterprise office servers with automated scheduled jobs, real-time telemetry, and multi-user transactional stability.'
+                }
+              ].map((step, idx) => (
+                <div key={idx} className="process-card">
+                  <div className="process-num-row">
+                    <span className="process-num">/{step.num}</span>
+                    <span className="process-badge">{step.subtitle}</span>
                   </div>
-
-                  {/* Separator */}
-                  {i < EXPERIENCE.length - 1 && (
-                    <div style={{ height: '1px', background: 'var(--border)', margin: '4px 0' }} />
-                  )}
-                </li>
+                  <h4 className="process-title">{step.title}</h4>
+                  <p className="process-desc">{step.desc}</p>
+                </div>
               ))}
-            </ol>
+            </div>
           </section>
 
-          {/* ── PROJECTS ──────────────────────────── */}
-          <section id="projects" style={{ marginBottom: '112px', scrollMarginTop: '88px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
-              <SectionLabel>Projects</SectionLabel>
+          {/* ── 03. PRODUCTION SYSTEMS ─────────────────── */}
+          <section id="projects" style={{ marginBottom: '120px', scrollMarginTop: '100px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+              <SectionHeader num="// 03" title="Production Systems" subtitle="[ 7+ REAL SYSTEMS SHIPPED ]" />
               
               <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px' }} className="project-filters hide-scrollbar">
                 {['All', 'Enterprise', 'Client', 'Live'].map(f => (
@@ -1147,7 +1209,7 @@ export default function App() {
                       background: activeFilter === f ? 'var(--gold-dim)' : 'transparent',
                       color: activeFilter === f ? 'var(--gold)' : 'var(--text-md)',
                       border: `1px solid ${activeFilter === f ? 'var(--gold-line)' : 'var(--border)'}`,
-                      padding: '4px 12px',
+                      padding: '5px 14px',
                       borderRadius: '999px',
                       fontSize: '11px',
                       fontWeight: 600,
@@ -1162,128 +1224,219 @@ export default function App() {
               </div>
             </div>
 
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
               {PROJECTS.filter(p => activeFilter === 'All' || p.type.includes(activeFilter)).map((p, i) => (
-                <li key={p.id} className={`reveal reveal-d${Math.min(i + 1, 4)}`}>
-                    <div
-                      className="card-hover project-card-item"
-                      style={{ padding: '22px', margin: '0 -22px', cursor: 'pointer', display: 'flex', gap: '20px', alignItems: 'center' }}
-                      onClick={() => setSelectedProject(p)}
-                      onMouseEnter={() => setHoverProject(true)}
-                      onMouseMove={handleCardMouseMove}
-                      onMouseLeave={(e) => {
-                        setHoverProject(false);
-                        handleCardMouseLeave(e);
-                      }}
-                    >
-                      {/* Thumbnail Image */}
-                      {p.images && p.images[0] && (
-                        <div className="project-card-thumb" style={{ flexShrink: 0, width: '130px', height: '86px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border)', background: 'var(--bg-hover)' }}>
-                          {p.images[0].endsWith('.mp4') ? (
-                            <video src={p.images[0]} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
-                          ) : (
-                            <img src={p.images[0]} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
-                          )}
+                <div
+                  key={p.id}
+                  className={`project-showcase-card reveal reveal-d${Math.min(i + 1, 4)}`}
+                >
+                  {/* Left: Media Preview Wrap */}
+                  <div
+                    className="project-media-wrap"
+                    onClick={() => setSelectedProject(p)}
+                    title="Click to explore full system case study & gallery"
+                  >
+                    {p.images && p.images[0] && (
+                      p.images[0].endsWith('.mp4') ? (
+                        <video
+                          src={p.images[0]}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="project-media-img"
+                        />
+                      ) : (
+                        <img
+                          src={p.images[0]}
+                          alt={p.title}
+                          className="project-media-img"
+                        />
+                      )
+                    )}
+
+                    {p.statusBadge && (
+                      <div className="project-media-overlay-badge">
+                        <span className={`card-status-badge ${p.statusBadge.toLowerCase().includes('live') ? 'live' : ''}`}>
+                          <span className="status-dot" />
+                          {p.statusBadge}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right: Content Details */}
+                  <div className="project-showcase-content">
+                    <div className="project-meta-row">
+                      <span className="text-label" style={{ color: 'var(--gold)' }}>{p.type}</span>
+                      {p.featured && (
+                        <span style={{ fontSize: '10.5px', fontWeight: 700, color: 'var(--gold)', background: 'var(--gold-dim)', border: '1px solid var(--gold-line)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                          Featured Enterprise Core
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="project-title-large">
+                      {p.title}
+                    </h3>
+
+                    <p className="project-desc-text">
+                      {p.desc}
+                    </p>
+
+                    {/* STAR Problem & Architecture Preview */}
+                    {p.problem && p.architecture && (
+                      <div className="project-star-preview">
+                        <div className="star-preview-box" style={{ borderLeft: '2px solid #f87171' }}>
+                          <div className="star-preview-label" style={{ color: '#f87171' }}>Problem</div>
+                          <p className="star-preview-text">
+                            {p.problem.length > 95 ? p.problem.slice(0, 95) + '...' : p.problem}
+                          </p>
                         </div>
+                        <div className="star-preview-box" style={{ borderLeft: '2px solid var(--gold)' }}>
+                          <div className="star-preview-label" style={{ color: 'var(--gold)' }}>Architecture</div>
+                          <p className="star-preview-text">
+                            {p.architecture.length > 95 ? p.architecture.slice(0, 95) + '...' : p.architecture}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tech badges */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '6px' }}>
+                      {p.tech.map(t => <span key={t} className="badge">{t}</span>)}
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="project-actions-row">
+                      {p.systemFlow && p.systemFlow.length > 0 && (
+                        <button
+                          onClick={() => setSelectedProject({ ...p, initialTab: 'architecture' })}
+                          className="card-flow-action-btn"
+                          title="Open Interactive System Architecture Simulator"
+                        >
+                          <span className="tab-pulse-dot" />
+                          <span>⚡ Architecture Flow</span>
+                        </button>
                       )}
 
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                            <span className="text-label">{p.type}</span>
-                            {p.statusBadge && (
-                              <span className={`card-status-badge ${p.statusBadge.toLowerCase().includes('live') ? 'live' : ''}`}>
-                                <span className="status-dot" />
-                                {p.statusBadge}
-                              </span>
-                            )}
-                          </div>
+                      <button
+                        onClick={() => setSelectedProject(p)}
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '6px',
+                          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)',
+                          color: '#fff', fontSize: '11.5px', fontWeight: 600,
+                          padding: '6px 14px', borderRadius: '999px', cursor: 'pointer',
+                          transition: 'all 0.2s ease'
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.borderColor = 'var(--gold-line)';
+                          e.currentTarget.style.color = 'var(--gold-light)';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
+                          e.currentTarget.style.color = '#fff';
+                        }}
+                      >
+                        <span>Case Study &amp; Gallery</span>
+                        <ArrowRight size={13} />
+                      </button>
 
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={(e) => e.stopPropagation()}>
-                            {p.systemFlow && p.systemFlow.length > 0 && (
-                              <button
-                                onClick={() => setSelectedProject({ ...p, initialTab: 'architecture' })}
-                                className="card-flow-action-btn"
-                                title="Open Live System Architecture Simulator"
-                              >
-                                <span className="tab-pulse-dot" />
-                                <span>⚡ Architecture Flow</span>
-                              </button>
-                            )}
+                      {p.link && (
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '4px',
+                            fontSize: '11px', fontWeight: 700, color: 'var(--gold-light)',
+                            background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
+                            padding: '6px 12px', borderRadius: '999px', textDecoration: 'none',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'var(--gold)';
+                            e.currentTarget.style.color = '#000';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'var(--gold-dim)';
+                            e.currentTarget.style.color = 'var(--gold-light)';
+                          }}
+                        >
+                          Live Demo <ArrowUpRight size={12} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
 
-                            {p.link ? (
-                              <a
-                                href={p.link}
-                                target="_blank"
-                                rel="noreferrer"
-                                style={{
-                                  display: 'inline-flex', alignItems: 'center', gap: '4px',
-                                  fontSize: '11px', fontWeight: 700, color: 'var(--gold-light)',
-                                  background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
-                                  padding: '4px 10px', borderRadius: '999px', textDecoration: 'none',
-                                  transition: 'all 0.2s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.background = 'var(--gold)';
-                                  e.currentTarget.style.color = '#000';
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.background = 'var(--gold-dim)';
-                                  e.currentTarget.style.color = 'var(--gold-light)';
-                                }}
-                              >
-                                Live Demo <ArrowUpRight size={12} />
-                              </a>
-                            ) : (
-                              <span style={{
-                                fontSize: '10px', fontWeight: 600, color: '#94a3b8',
-                                background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)',
-                                padding: '3px 8px', borderRadius: '999px'
-                              }}>
-                                🏢 Enterprise Server
-                              </span>
-                            )}
-                          </div>
-                        </div>
+          {/* ── 04. EXPERIENCE ────────────────────────── */}
+          <section id="experience" style={{ marginBottom: '120px', scrollMarginTop: '100px' }}>
+            <SectionHeader num="// 04" title="Career Experience" subtitle="[ ENTERPRISE & TEAMS ]" />
 
-                        <h3 style={{
-                          fontSize: '14.5px', fontWeight: 600,
-                          color: 'var(--text-hi)', marginBottom: '8px', letterSpacing: '-0.2px',
-                        }}>
-                          {p.title}
-                        </h3>
-                        <p style={{ fontSize: '13px', lineHeight: 1.75, color: 'var(--text-md)', marginBottom: '14px' }}>
-                          {p.desc}
-                        </p>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                            {p.tech.map(t => <span key={t} className="badge">{t}</span>)}
-                          </div>
-                          <span className="card-explore-hint">
-                            Case Study & System Specs <ArrowRight size={13} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '3px' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {EXPERIENCE.map((item, i) => (
+                <div
+                  key={i}
+                  className={`bento-card reveal reveal-d${Math.min(i + 1, 4)}`}
+                  style={{ padding: '28px', background: 'linear-gradient(145deg, rgba(16, 22, 32, 0.75) 0%, rgba(10, 14, 20, 0.9) 100%)' }}
+                >
+                  <div style={{
+                    display: 'flex', alignItems: 'flex-start',
+                    justifyContent: 'space-between', marginBottom: '12px',
+                    flexWrap: 'wrap', gap: '8px'
+                  }}>
+                    <div>
+                      <h3 style={{
+                        fontSize: '16px', fontWeight: 700,
+                        color: 'var(--text-hi)', marginBottom: '4px', letterSpacing: '-0.2px',
+                      }}>
+                        {item.title}
+                      </h3>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '13.5px', color: 'var(--gold)', fontWeight: 600 }}>
+                          {item.company}
+                        </span>
+                        {item.period && (
+                          <span style={{
+                            fontSize: '11px', color: 'var(--gold-light)',
+                            background: 'var(--gold-dim)', border: '1px solid var(--gold-line)',
+                            padding: '2px 8px', borderRadius: '999px', fontWeight: 500
+                          }}>
+                            {item.period}
                           </span>
-                        </div>
-                      </div>
-
-                      <div style={{ color: '#94a3b8', flexShrink: 0, alignSelf: 'center' }} title="Click to view details">
-                        <ArrowRight size={16} className="card-end-arrow" />
+                        )}
                       </div>
                     </div>
-                  {i < PROJECTS.length - 1 && (
-                    <div style={{ height: '1px', background: 'var(--border)', margin: '4px 0' }} />
-                  )}
-                </li>
+                    <span style={{
+                      fontSize: '11.5px', color: '#94a3b8',
+                      letterSpacing: '0.5px', flexShrink: 0, paddingTop: '2px', fontWeight: 500
+                    }}>
+                      {item.location}
+                    </span>
+                  </div>
+
+                  <p style={{ fontSize: '13.5px', lineHeight: 1.75, color: 'var(--text-md)', marginBottom: '16px' }}>
+                    {item.desc}
+                  </p>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {item.tech.map(t => <span key={t} className="badge">{t}</span>)}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </section>
 
           {/* ── QUICK HIRE & COMMISSIONS BANNER ───────────────────────────── */}
           <div className="reveal" style={{
-            marginBottom: '64px',
-            padding: '32px 28px',
+            marginBottom: '100px',
+            padding: '36px 32px',
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, rgba(198,168,75,0.08) 0%, rgba(15,20,28,0.85) 100%)',
+            background: 'linear-gradient(135deg, rgba(198,168,75,0.08) 0%, rgba(15,20,28,0.9) 100%)',
             border: '1px solid var(--gold-line)',
             boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
             position: 'relative',
@@ -1295,14 +1448,14 @@ export default function App() {
               </div>
               <h3 style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(20px, 3vw, 26px)',
+                fontSize: 'clamp(20px, 3vw, 28px)',
                 fontWeight: 700,
                 color: 'var(--text-hi)',
                 marginBottom: '10px'
               }}>
                 Looking for a Full Stack & Flutter Engineer who ships from Day 1?
               </h3>
-              <p style={{ fontSize: '13.5px', color: 'var(--text-md)', maxWidth: '560px', marginBottom: '24px', lineHeight: 1.7 }}>
+              <p style={{ fontSize: '14px', color: 'var(--text-md)', maxWidth: '640px', marginBottom: '24px', lineHeight: 1.7 }}>
                 Whether you need a high-performance POS platform, a Flutter mobile app, or a scalable .NET/React system — I deliver production-ready software with speed and precision.
               </p>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -1312,8 +1465,8 @@ export default function App() {
                   rel="noreferrer"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '8px',
-                    padding: '10px 20px', background: '#25D366',
-                    color: '#000', fontWeight: 700, fontSize: '11.5px',
+                    padding: '11px 22px', background: '#25D366',
+                    color: '#000', fontWeight: 700, fontSize: '12px',
                     borderRadius: '999px', textDecoration: 'none',
                     boxShadow: '0 4px 15px rgba(37,211,102,0.25)',
                     transition: 'all 0.2s ease'
@@ -1325,9 +1478,9 @@ export default function App() {
                   href="mailto:uthsaravenura@gmail.com"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '8px',
-                    padding: '10px 20px', background: 'var(--gold-dim)',
+                    padding: '11px 22px', background: 'var(--gold-dim)',
                     border: '1px solid var(--gold-line)', color: 'var(--gold-light)',
-                    fontWeight: 700, fontSize: '11.5px', borderRadius: '999px',
+                    fontWeight: 700, fontSize: '12px', borderRadius: '999px',
                     textDecoration: 'none', transition: 'all 0.2s ease'
                   }}
                 >
@@ -1338,9 +1491,9 @@ export default function App() {
                   target="_blank"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '8px',
-                    padding: '10px 20px', background: 'rgba(255,255,255,0.06)',
+                    padding: '11px 22px', background: 'rgba(255,255,255,0.06)',
                     border: '1px solid var(--border)', color: 'var(--text-hi)',
-                    fontWeight: 600, fontSize: '11.5px', borderRadius: '999px',
+                    fontWeight: 600, fontSize: '12px', borderRadius: '999px',
                     textDecoration: 'none', transition: 'all 0.2s ease'
                   }}
                 >
@@ -1350,111 +1503,154 @@ export default function App() {
             </div>
           </div>
 
-          {/* ── CONTACT ───────────────────────────── */}
-          <section id="contact" style={{ marginBottom: '80px', scrollMarginTop: '88px' }}>
-            <SectionLabel>Contact</SectionLabel>
+          {/* ── 05. CONTACT ───────────────────────────── */}
+          <section id="contact" style={{ marginBottom: '80px', scrollMarginTop: '100px' }}>
+            <SectionHeader num="// 05" title="Get In Touch" subtitle="[ SELECT COMMISSIONS & PARTNERSHIPS ]" />
 
-            <div className="reveal">
-              <p style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--text-md)', maxWidth: '440px', marginBottom: '36px' }}>
-                Open to select commissions and enterprise partnerships. Have a system to build or a challenge to solve?{' '}
-                <span style={{ color: 'var(--text-hi)' }}>I'd love to hear from you.</span>
-              </p>
+            <div className="reveal" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '48px', alignItems: 'flex-start' }}>
+              <div>
+                <p style={{ fontSize: '14.5px', lineHeight: 1.85, color: 'var(--text-md)', marginBottom: '32px' }}>
+                  Open to select commissions and enterprise partnerships. Have a system to build or a challenge to solve?{' '}
+                  <span style={{ color: 'var(--text-hi)', fontWeight: 500 }}>I'd love to hear from you.</span>
+                </p>
 
-              {/* Contact meta */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '40px' }}>
-                {[
-                  { Icon: Mail, text: 'uthsaravenura@gmail.com', href: 'mailto:uthsaravenura@gmail.com' },
-                  { Icon: MapPin, text: 'Colombo, Sri Lanka — Open to Remote', href: null },
-                ].map(({ Icon, text, href }) => (
-                  <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Icon size={13} style={{ color: 'var(--gold)', flexShrink: 0 }} />
-                    {href
-                      ? <a href={href} className="gold-link" style={{ fontSize: '13.5px' }}>{text}</a>
-                      : <span style={{ fontSize: '13.5px', color: 'var(--text-md)' }}>{text}</span>
-                    }
-                  </div>
-                ))}
+                {/* Contact meta */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '36px' }}>
+                  {[
+                    { Icon: Mail, text: 'uthsaravenura@gmail.com', href: 'mailto:uthsaravenura@gmail.com' },
+                    { Icon: MapPin, text: 'Colombo, Sri Lanka — Open to Remote', href: null },
+                  ].map(({ Icon, text, href }) => (
+                    <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <Icon size={14} style={{ color: 'var(--gold)', flexShrink: 0 }} />
+                      {href
+                        ? <a href={href} className="gold-link" style={{ fontSize: '14px' }}>{text}</a>
+                        : <span style={{ fontSize: '14px', color: 'var(--text-md)' }}>{text}</span>
+                      }
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  {SOCIALS.map(s => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '8px',
+                        padding: '8px 14px', background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px',
+                        color: 'var(--text-hi)', fontSize: '12px', fontWeight: 600,
+                        textDecoration: 'none', transition: 'all 0.2s ease'
+                      }}
+                    >
+                      {s.icon}
+                      <span>{s.label}</span>
+                    </a>
+                  ))}
+                </div>
               </div>
 
               {/* Form */}
-              {formSent ? (
-                <div style={{
-                  padding: '36px', border: '1px solid var(--gold-line)',
-                  borderRadius: '12px', background: 'rgba(198,168,75,0.03)',
-                  textAlign: 'center', animation: 'fadeUp 0.4s ease',
-                }}>
-                  <div style={{ fontSize: '24px', color: 'var(--gold)', marginBottom: '12px' }}>✦</div>
-                  <h3 style={{ color: 'var(--text-hi)', fontSize: '16px', marginBottom: '8px', fontWeight: 600 }}>
-                    Message received
-                  </h3>
-                  <p style={{ color: 'var(--text-md)', fontSize: '13px' }}>
-                    I'll respond within 24 hours.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '28px', maxWidth: '460px' }}>
-                  {[
-                    { id: 'name', label: 'Name', type: 'text', key: 'name' },
-                    { id: 'email', label: 'Email', type: 'email', key: 'email' },
-                  ].map(({ id, label, type, key }) => (
-                    <div key={id} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <label htmlFor={id} className="text-label">{label}</label>
-                      <input
-                        id={id} type={type} required
-                        value={formData[key]}
-                        onChange={e => setFormData({ ...formData, [key]: e.target.value })}
+              <div>
+                {formSent ? (
+                  <div style={{
+                    padding: '36px', border: '1px solid var(--gold-line)',
+                    borderRadius: '12px', background: 'rgba(198,168,75,0.03)',
+                    textAlign: 'center', animation: 'fadeUp 0.4s ease',
+                  }}>
+                    <div style={{ fontSize: '24px', color: 'var(--gold)', marginBottom: '12px' }}>✦</div>
+                    <h3 style={{ color: 'var(--text-hi)', fontSize: '16px', marginBottom: '8px', fontWeight: 600 }}>
+                      Message received
+                    </h3>
+                    <p style={{ color: 'var(--text-md)', fontSize: '13px' }}>
+                      I'll respond within 24 hours.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+                    {[
+                      { id: 'name', label: 'Name', type: 'text', key: 'name' },
+                      { id: 'email', label: 'Email', type: 'email', key: 'email' },
+                    ].map(({ id, label, type, key }) => (
+                      <div key={id} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <label htmlFor={id} className="text-label">{label}</label>
+                        <input
+                          id={id} type={type} required
+                          value={formData[key]}
+                          onChange={e => setFormData({ ...formData, [key]: e.target.value })}
+                          className="form-input"
+                          placeholder={`Your ${label.toLowerCase()}`}
+                        />
+                      </div>
+                    ))}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <label htmlFor="message" className="text-label">Message</label>
+                      <textarea
+                        id="message" required rows={4}
+                        value={formData.message}
+                        onChange={e => setFormData({ ...formData, message: e.target.value })}
                         className="form-input"
-                        placeholder={`Your ${label.toLowerCase()}`}
+                        placeholder="Tell me about your project or role..."
+                        style={{ resize: 'none' }}
                       />
                     </div>
-                  ))}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <label htmlFor="message" className="text-label">Message</label>
-                    <textarea
-                      id="message" required rows={5}
-                      value={formData.message}
-                      onChange={e => setFormData({ ...formData, message: e.target.value })}
-                      className="form-input"
-                      placeholder="Tell me about your project..."
-                      style={{ resize: 'none' }}
-                    />
-                  </div>
-                  <MagneticButton
-                    as="button"
-                    type="submit"
-                    style={{
-                      alignSelf: 'flex-start',
-                      display: 'inline-flex', alignItems: 'center', gap: '8px',
-                      padding: '11px 26px',
-                      background: 'transparent',
-                      border: '1px solid var(--gold-line)',
-                      borderRadius: '6px',
-                      color: 'var(--gold)',
-                      fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px',
-                      cursor: 'pointer', fontFamily: 'var(--font)',
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.background = 'var(--gold-dim)';
-                      e.currentTarget.style.borderColor = 'var(--gold)';
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.borderColor = 'var(--gold-line)';
-                    }}
-                  >
-                    SEND MESSAGE <ArrowUpRight size={12} />
-                  </MagneticButton>
-                </form>
-              )}
+                    <MagneticButton
+                      as="button"
+                      type="submit"
+                      style={{
+                        alignSelf: 'flex-start',
+                        display: 'inline-flex', alignItems: 'center', gap: '8px',
+                        padding: '12px 28px',
+                        background: 'transparent',
+                        border: '1px solid var(--gold-line)',
+                        borderRadius: '8px',
+                        color: 'var(--gold)',
+                        fontSize: '11px', fontWeight: 700, letterSpacing: '2px',
+                        cursor: 'pointer', fontFamily: 'var(--font)',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = 'var(--gold-dim)';
+                        e.currentTarget.style.borderColor = 'var(--gold)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.borderColor = 'var(--gold-line)';
+                      }}
+                    >
+                      SEND MESSAGE <ArrowUpRight size={12} />
+                    </MagneticButton>
+                  </form>
+                )}
+              </div>
             </div>
           </section>
 
           {/* Footer */}
-          <footer style={{ borderTop: '1px solid var(--border)', paddingTop: '36px' }}>
-            <p style={{ fontSize: '12px', color: 'var(--text-lo)', lineHeight: 1.8 }}>
-              Designed & built by{' '}
-              <span style={{ color: 'var(--text-md)' }}>Venura Wickramasingha</span>.
+          <footer style={{ borderTop: '1px solid var(--border)', paddingTop: '36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+            <p style={{ fontSize: '12.5px', color: 'var(--text-lo)', margin: 0 }}>
+              Designed &amp; engineered by <span style={{ color: 'var(--text-hi)' }}>Venura Wickramasingha</span>.
             </p>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              style={{
+                background: 'transparent', border: '1px solid var(--border)',
+                color: 'var(--text-md)', fontSize: '11px', padding: '6px 14px',
+                borderRadius: '999px', cursor: 'pointer', display: 'inline-flex',
+                alignItems: 'center', gap: '6px', transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'var(--gold-line)';
+                e.currentTarget.style.color = 'var(--gold)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--border)';
+                e.currentTarget.style.color = 'var(--text-md)';
+              }}
+            >
+              <span>Back to top</span> ↑
+            </button>
           </footer>
         </main>
       </div>

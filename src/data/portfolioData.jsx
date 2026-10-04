@@ -339,4 +339,4 @@ export const STATS = [
   { value: 3, suffix: '+', label: 'Real-world clients served' },
 ];
 
-export const NAV_SECTIONS = ['about', 'experience', 'projects', 'contact'];
+export const NAV_SECTIONS = ['about', 'methodology', 'projects', 'experience', 'contact'];
